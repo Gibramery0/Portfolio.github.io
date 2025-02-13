@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolyo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="src/styles/main.css">
+    <script defer src="src/scripts/main.js"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+    <!-- Hero Bölümü -->
+    <section class="h-screen flex flex-col justify-center items-center text-center">
+        <h1 class="text-4xl font-bold">Merhaba, Ben <span class="text-blue-600">[İbrahim]</span></h1>
+        <p class="text-lg text-gray-700 mt-2">Bilgisayar Programcısıyım</p>
+    </section>
+
+    <!-- Projeler Bölümü -->
+    <section class="p-10">
+        <h2 class="text-2xl font-semibold mb-5">Projelerim</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div class="bg-white p-5 rounded-lg shadow-md project-card">
+                <img src="src/images/fruitpiano.jpg" alt="Project 1" class="w-full h-48 object-cover rounded-md mb-3">
+                <p class="text-lg font-semibold">Project 1</p>
+            </div>
+            <div class="bg-white p-5 rounded-lg shadow-md project-card">
+                <img src="src/images/gunestakip.jpg" alt="Project 2" class="w-full h-48 object-cover rounded-md mb-3">
+                <p class="text-lg font-semibold">Project 2</p>
+            </div>
+            <div class="bg-white p-5 rounded-lg shadow-md project-card">
+                <img src="src/images/lasersecurity.jpg" alt="Project 3" class="w-full h-48 object-cover rounded-md mb-3">
+                <p class="text-lg font-semibold">Project 3</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- İletişim Bölümü -->
+    <section id="contactSection" class="bg-white text-white p-10 mt-10">
+        <h2 class="text-3xl font-semibold mb-4">İletişim</h2>
+        <form action="submit_form.php" method="POST">
+            <input type="text" name="name" placeholder="Adınız" class="w-full p-3 mb-3 border border-gray-300 rounded">
+            <input type="email" name="email" placeholder="E-posta Adresiniz" class="w-full p-3 mb-3 border border-gray-300 rounded">
+            <textarea name="message" placeholder="Mesajınız" class="w-full p-3 mb-3 border border-gray-300 rounded"></textarea>
+            <button type="submit" class="w-full p-3 bg-blue-600 text-white rounded">Gönder</button>
+        </form>
+    </section>
+
+</body>
+</html>

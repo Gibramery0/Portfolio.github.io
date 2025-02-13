@@ -1,0 +1,17 @@
+/* src/styles/main.css */
+
+/* Sticky footer */
+footer {
+    position: sticky;
+    bottom: 0;
+    background-color: #2d3748;  /* Arka plan rengi */
+    color: white;
+    padding: 10px;
+    text-align: center;
+    z-index: 10;
+    margin-top: 50px;  /* Üstten biraz boşluk bırakmak için */
+}
+
+footer a {
+    color: #63b3ed;  /* Link rengi */
+}

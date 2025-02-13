@@ -1,0 +1,31 @@
+<!-- src/contact/contact.html -->
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İletişim</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <script defer src="../scripts/main.js"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+    <section class="p-10">
+        <h2 class="text-2xl font-semibold mb-5">İletişim Formu</h2>
+        <form action="#" method="POST" class="bg-white p-5 rounded-lg shadow-md">
+            <div class="mb-4">
+                <label for="name" class="block text-gray-700">Adınız</label>
+                <input type="text" id="name" name="name" class="w-full p-3 border border-gray-300 rounded-md" required>
+            </div>
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700">E-posta</label>
+                <input type="email" id="email" name="email" class="w-full p-3 border border-gray-300 rounded-md" required>
+            </div>
+            <div class="mb-4">
+                <label for="message" class="block text-gray-700">Mesajınız</label>
+                <textarea id="message" name="message" class="w-full p-3 border border-gray-300 rounded-md" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded-md">Gönder</button>
+        </form>
+    </section>
+</body>
+</html>
