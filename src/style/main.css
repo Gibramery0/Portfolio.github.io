@@ -15,3 +15,60 @@ footer {
 footer a {
     color: #63b3ed;  /* Link rengi */
 }
+
+.contact-container {
+    text-align: center;
+    padding: 50px;
+}
+
+.contact-header {
+    font-size: 40px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.contact-subtitle {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.contact-info {
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.contact-info i {
+    font-size: 30px;
+}
+
+.contact-form {
+    background: rgba(255, 255, 255, 0.1); /* Şeffaf kutu */
+    padding: 20px;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+input[type="text"], input[type="email"], textarea {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+button {
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    padding: 10px 20px;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+}

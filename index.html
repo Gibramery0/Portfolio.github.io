@@ -7,17 +7,53 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="src/styles/main.css">
     <script defer src="src/scripts/main.js"></script>
+    <style>
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
 </head>
 <body class="bg-gray-100 text-gray-900">
 
+    <!-- Navbar -->
+    <nav class="bg-white bg-opacity-40 backdrop-blur-lg shadow-md fixed w-1/2 top-0 left-0 right-0 mx-auto z-50 rounded-full">
+        <div class="max-w-full mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <a href="#" class="text-xl font-bold text-blue-600">İbrahim</a>
+
+                <!-- Hamburger Menu -->
+                <button id="menu-btn" class="md:hidden focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+
+                <!-- Menü -->
+                <ul id="menu" class="hidden md:flex space-x-6 text-gray-700">
+                    <li><a href="#" class="hover:bg-blue-600 hover:text-white transition-all duration-300 px-6 py-2 rounded-full bg-opacity-60 border border-transparent">Ana Sayfa</a></li>
+                    <li><a href="#projects" class="hover:bg-blue-600 hover:text-white transition-all duration-300 px-6 py-2 rounded-full bg-opacity-60 border border-transparent">Projeler</a></li>
+                    <li><a href="#contactSection" class="hover:bg-blue-600 hover:text-white transition-all duration-300 px-6 py-2 rounded-full bg-opacity-60 border border-transparent">İletişim</a></li>
+                </ul>
+            </div>
+
+            <!-- Mobil Menü -->
+            <div id="mobile-menu" class="hidden md:hidden flex flex-col items-center bg-white py-2">
+                <a href="#" class="py-2 text-gray-700 hover:text-blue-600">Ana Sayfa</a>
+                <a href="#projects" class="py-2 text-gray-700 hover:text-blue-600">Projeler</a>
+                <a href="#contactSection" class="py-2 text-gray-700 hover:text-blue-600">İletişim</a>
+            </div>
+        </div>
+    </nav>
+
     <!-- Hero Bölümü -->
-    <section class="h-screen flex flex-col justify-center items-center text-center">
-        <h1 class="text-4xl font-bold">Merhaba, Ben <span class="text-blue-600">[İbrahim]</span></h1>
+    <section class="h-screen flex flex-col justify-center items-center text-center mt-16">
+        <h1 class="text-4xl font-bold">Merhaba, Ben <span class="text-blue-600">İbrahim</span></h1>
         <p class="text-lg text-gray-700 mt-2">Bilgisayar Programcısıyım</p>
     </section>
 
     <!-- Projeler Bölümü -->
-    <section class="p-10">
+    <section id="projects" class="p-10">
         <h2 class="text-2xl font-semibold mb-5">Projelerim</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
             <div class="bg-white p-5 rounded-lg shadow-md project-card">
@@ -36,7 +72,7 @@
     </section>
 
     <!-- İletişim Bölümü -->
-    <section id="contactSection" class="bg-white text-white p-10 mt-10">
+    <section id="contactSection" class="bg-white p-10 mt-10">
         <h2 class="text-3xl font-semibold mb-4">İletişim</h2>
         <form action="submit_form.php" method="POST">
             <input type="text" name="name" placeholder="Adınız" class="w-full p-3 mb-3 border border-gray-300 rounded">
@@ -45,6 +81,17 @@
             <button type="submit" class="w-full p-3 bg-blue-600 text-white rounded">Gönder</button>
         </form>
     </section>
+
+    <script>
+        // Mobil Menü Aç/Kapa
+        const menuBtn = document.getElementById("menu-btn");
+        const menu = document.getElementById("menu");
+        const mobileMenu = document.getElementById("mobile-menu");
+
+        menuBtn.addEventListener("click", () => {
+            mobileMenu.classList.toggle("hidden");
+        });
+    </script>
 
 </body>
 </html>

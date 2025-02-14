@@ -1,31 +1,47 @@
-<!-- src/contact/contact.html -->
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
+    <!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=YourFontName&display=swap" rel="stylesheet">
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>İletişim</title>
-    <link rel="stylesheet" href="../styles/main.css">
-    <script defer src="../scripts/main.js"></script>
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-gray-100 text-gray-900">
-    <section class="p-10">
-        <h2 class="text-2xl font-semibold mb-5">İletişim Formu</h2>
-        <form action="#" method="POST" class="bg-white p-5 rounded-lg shadow-md">
-            <div class="mb-4">
-                <label for="name" class="block text-gray-700">Adınız</label>
-                <input type="text" id="name" name="name" class="w-full p-3 border border-gray-300 rounded-md" required>
+<body>
+
+    <div class="contact-container">
+        <h1 class="contact-header">contact</h1>
+        <p class="contact-subtitle">How can we help?</p>
+        
+        <div class="contact-info">
+            <i class="fa fa-phone"></i>
+            <span>+61 2 8052 9568</span>
+        </div>
+        
+        <div class="locations">
+            <div class="location">
+                <i class="fa fa-building"></i>
+                <p><strong>Sydney</strong><br>Level 5, 20 Bond Street<br>Sydney NSW 2000</p>
             </div>
-            <div class="mb-4">
-                <label for="email" class="block text-gray-700">E-posta</label>
-                <input type="email" id="email" name="email" class="w-full p-3 border border-gray-300 rounded-md" required>
+            <div class="location">
+                <i class="fa fa-building"></i>
+                <p><strong>Newcastle</strong><br>2 Portside Crescent<br>Maryville NSW 2293</p>
             </div>
-            <div class="mb-4">
-                <label for="message" class="block text-gray-700">Mesajınız</label>
-                <textarea id="message" name="message" class="w-full p-3 border border-gray-300 rounded-md" rows="4" required></textarea>
-            </div>
-            <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded-md">Gönder</button>
-        </form>
-    </section>
+        </div>
+        
+        <div class="contact-form">
+            <h2>Leave a Message</h2>
+            <input type="text" placeholder="Full Name">
+            <input type="email" placeholder="Your Email">
+            <textarea placeholder="Your Message"></textarea>
+            <button>Send Message</button>
+        </div>
+    </div>
+
 </body>
 </html>
