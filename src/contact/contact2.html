@@ -56,7 +56,7 @@
         .content {
             width: 90%;
             text-align: left;
-            margin-left: 50px;
+            margin-left: 80px;
         }
         .title {
             font-size: 48px;
@@ -68,26 +68,40 @@
         }
         .contact-info {
             display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 15px;
-            margin-bottom: 40px;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 37px;
+    margin-bottom: 40px;
         }
         .contact-info div {
-            display: flex;
-            align-items: center;
+            display:flex;
+            align-items: flex-start;
             gap: 15px;
-            font-size: 18px;
+            font-size: 40px;  
+            width: 50%;
         }
         .contact-info span {
-            font-size: 28px;
+            font-size: 50px;
+        } 
+        .contact-info .col-spacer {
+            width: 5%;
+            height: 5%;
+        }
+        .contact-info .number {           
+            opacity: 0.8;
+        }
+        .address {
+            flex-direction: column;
+            gap: 0px !important;
+            font-size: 15px !important;
+            opacity: 0.8;
         }
         .divider {
             width: 100%;
             height: 0.2px;
             background: white;
             opacity: 0.3;
-            margin: 30px 0;
+            margin: 30px 0;+
         }
         .message-box {
             display: flex;
@@ -170,8 +184,8 @@
             <p class="subtitle">How can we help?</p>
             
             <div class="contact-info">
-                <div><span class="material-icons">phone</span> +90 258 000 0000</div>
-                <div><span class="material-icons">business</span> <strong>Denizli</strong><br>C, 20070, Kınıklı, Hüseyin Yılmaz Cd. No:67, 20160 Denizli Merkezefendi/Denizli</div>
+                <div><span class="material-icons">phone</span><no class="number">+90 258 000 0000</no> </div><div class="col-spacer"></div>
+                <div><span class="material-icons">business</span> <div class="address"><strong>Denizli</strong>C, 20070, Kınıklı, Hüseyin Yılmaz Cd. No:67, 20160 Denizli Merkezefendi/Denizli</div></div>
             </div>
             
             <div class="divider"></div>
