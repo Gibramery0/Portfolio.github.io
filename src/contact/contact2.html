@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400&display=swap" rel="stylesheet"> 
+   <title>Contact Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            background: url('../images/background.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        header {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+        .logo {
+            width: 120px;
+        }
+        .title {
+            font-size: 48px;
+            font-weight: 400;
+            text-transform: lowercase;
+            color: white;
+            
+        }
+        .subtitle {
+            font-size: 20px;
+            margin-bottom: 30px;
+            color: white;
+        }
+        .contact-info {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+        .phone {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        .addresses {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+        .address {
+            text-align: left;
+        }
+        .message-box {
+            
+            padding: 20px;
+            border-radius: 45px;
+            
+            width: 350px;
+            text-align: center;
+        }
+        .message-title {
+            font-family: 'Titillium Web', sans-serif;
+            font-size: 20px;
+            font-weight: 400;
+            color: white;
+            text-transform:lowercase;
+        }
+        .message-subtitle {
+            font-size: 16px;
+            color: white;
+            margin-bottom: 15px;
+        }
+        .input-box {
+            opacity: 1;
+    transform: translate(0);
+            backdrop-filter: blur(30px);
+    background: hsla(0, 0%, 100%, .13);
+    border: 3px solid hsla(0, 0%, 100%, .23);
+    box-shadow: none;
+    color: hsla(0, 0%, 100%, .8);
+    font-size: 38px;
+    padding: 0px 10px 22px;
+    transition: border .3sease-out;
+    width: 90%;
+    border-radius: inherit;
+        }
+        .placeholder {
+            font-size: 18px;
+            color: rgb(255, 255, 255);
+            font-family: sans-serif;
+        }
+        .submit-button {
+            background: transparent;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: white;
+        }
+        .menu-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: white;
+        }
+        .bottom-lines {
+            position: absolute;
+            bottom: 15px;
+            left: 15%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 5px;
+        }
+        .bottom-lines span {
+            width: 30px;
+            height: 3px;
+            background: white;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="logo.png" alt="Actualise Design" class="logo">
+        </header>
+        
+        <div class="content">
+            <h1 class="title">contact</h1>
+            <p class="subtitle">How can we help?</p>
+            
+            <div class="contact-info">
+                <p class="phone"><span class="icon">📞</span> +61 2 8052 9568</p>
+                <div class="addresses">
+                    <div class="address">
+                        <span class="icon">🏢</span>
+                        <p><strong>Sydney</strong><br>Level 5, 20 Bond Street<br>Sydney NSW 2000</p>
+                    </div>
+                    <div class="address">
+                        <span class="icon">🏢</span>
+                        <p><strong>Newcastle</strong><br>2 Portside Crescent<br>Maryville NSW 2293</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="message-box">
+                <p class="message-title">leave a message</p>
+                <p class="message-subtitle">Introduce yourself:</p>
+                <div class="input-box">
+                    <span class="placeholder">full name</span>
+                    <button class="submit-button">➡</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="menu-button">☰</div>
+        
+        <div class="bottom-lines">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+    </div>
+</body>
+</html>
