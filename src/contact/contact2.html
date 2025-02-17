@@ -84,8 +84,9 @@
         }
         .divider {
             width: 100%;
-            height: 2px;
+            height: 0.2px;
             background: white;
+            opacity: 0.3;
             margin: 30px 0;
         }
         .message-box {
@@ -177,10 +178,11 @@
             
             <div class="message-box">
                 <p class="message-title">leave a message</p>
+                <p class="message-subtitle" style="margin-right: 10px;">Enter your name:</p>
                 <div style="display: flex; align-items: center;">
-                    <p class="message-subtitle" style="margin-right: 10px;">Enter your name:</p>
+                    
                     <div class="input-box">
-                        <input type="text" placeholder="Your Name">
+                        <input type="text" placeholder="full name">
                     </div>
                     <button class="submit-button">➡</button>
                 </div>
