@@ -54,23 +54,10 @@
 
     <!-- Projeler Bölümü -->
     <section id="projects" class="p-10">
-        <h2 class="text-2xl font-semibold mb-5">Projelerim</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-            <div class="bg-white p-5 rounded-lg shadow-md project-card">
-                <img src="src/images/fruitpiano.jpg" alt="Project 1" class="w-full h-48 object-cover rounded-md mb-3">
-                <p class="text-lg font-semibold">Project 1</p>
-            </div>
-            <div class="bg-white p-5 rounded-lg shadow-md project-card">
-                <img src="src/images/gunestakip.jpg" alt="Project 2" class="w-full h-48 object-cover rounded-md mb-3">
-                <p class="text-lg font-semibold">Project 2</p>
-            </div>
-            <div class="bg-white p-5 rounded-lg shadow-md project-card">
-                <img src="src/images/lasersecurity.jpg" alt="Project 3" class="w-full h-48 object-cover rounded-md mb-3">
-                <p class="text-lg font-semibold">Project 3</p>
-            </div>
-        </div>
+    <h2 class="text-2xl font-semibold mb-5">Projelerim</h2>
+    <div id="projects-container" class="grid grid-cols-1 md:grid-cols-3 gap-5"></div>
     </section>
-
+   
     <!-- İletişim Bölümü -->
     <section id="contactSection" class="bg-white p-10 mt-10">
         <h2 class="text-3xl font-semibold mb-4">İletişim</h2>
@@ -82,16 +69,7 @@
         </form>
     </section>
 
-    <script>
-        // Mobil Menü Aç/Kapa
-        const menuBtn = document.getElementById("menu-btn");
-        const menu = document.getElementById("menu");
-        const mobileMenu = document.getElementById("mobile-menu");
-
-        menuBtn.addEventListener("click", () => {
-            mobileMenu.classList.toggle("hidden");
-        });
-    </script>
+    <script src="src/scripts/github-projects.js"></script>
 
 </body>
 </html>
