@@ -32,16 +32,10 @@
                 <!-- Menü -->
                 <ul id="menu" class="hidden md:flex space-x-6 text-gray-700">
                     <li><a href="#" class="hover:bg-blue-600 hover:text-white transition-all duration-300 px-6 py-2 rounded-full bg-opacity-60 border border-transparent">Ana Sayfa</a></li>
+                    <li><a href="#about" class="hover:bg-blue-600 hover:text-white transition-all duration-300 px-6 py-2 rounded-full bg-opacity-60 border border-transparent">Hakkımda</a></li>
                     <li><a href="#projects" class="hover:bg-blue-600 hover:text-white transition-all duration-300 px-6 py-2 rounded-full bg-opacity-60 border border-transparent">Projeler</a></li>
                     <li><a href="#contactSection" class="hover:bg-blue-600 hover:text-white transition-all duration-300 px-6 py-2 rounded-full bg-opacity-60 border border-transparent">İletişim</a></li>
                 </ul>
-            </div>
-
-            <!-- Mobil Menü -->
-            <div id="mobile-menu" class="hidden md:hidden flex flex-col items-center bg-white py-2">
-                <a href="#" class="py-2 text-gray-700 hover:text-blue-600">Ana Sayfa</a>
-                <a href="#projects" class="py-2 text-gray-700 hover:text-blue-600">Projeler</a>
-                <a href="#contactSection" class="py-2 text-gray-700 hover:text-blue-600">İletişim</a>
             </div>
         </div>
     </nav>
@@ -52,10 +46,43 @@
         <p class="text-lg text-gray-700 mt-2">Bilgisayar Programcısıyım</p>
     </section>
 
+    <!-- Hakkımda Bölümü -->
+    <section id="about" class="py-20 px-10 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-6">Hakkımda</h2>
+            <p class="text-lg text-gray-200">
+                Bilgisayar programcısıyım ve yazılım geliştirme konularında tutkulu biriyim. Full-stack geliştirme, mobil uygulamalar, IoT ve otomasyon sistemleri üzerine çalışıyorum.
+            </p>
+        </div>
+
+        <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Kart 1 -->
+            <div class="p-6 bg-white bg-opacity-40 backdrop-blur-lg shadow-lg border border-gray-200 rounded-lg text-center">
+                <img src="src/images/code-icon.png" alt="Kodlama" class="w-16 mx-auto mb-4">
+                <h3 class="text-xl font-semibold text-black">Full-Stack Geliştirici</h3>
+                <p class="text-gray-800">Frontend ve backend geliştirme yapıyorum.</p>
+            </div>
+
+            <!-- Kart 2 -->
+            <div class="p-6 bg-white bg-opacity-40 backdrop-blur-lg shadow-lg border border-gray-200 rounded-lg text-center">
+                <img src="src/images/mobile-icon.png" alt="Mobil" class="w-16 mx-auto mb-4">
+                <h3 class="text-xl font-semibold text-black">Mobil Geliştirme</h3>
+                <p class="text-gray-800">Flutter ve Android Studio ile mobil uygulamalar geliştiriyorum.</p>
+            </div>
+
+            <!-- Kart 3 -->
+            <div class="p-6 bg-white bg-opacity-40 backdrop-blur-lg shadow-lg border border-gray-200 rounded-lg text-center">
+                <img src="src/images/iot-icon.png" alt="IoT" class="w-16 mx-auto mb-4">
+                <h3 class="text-xl font-semibold text-black">IoT & Otomasyon</h3>
+                <p class="text-gray-800">Arduino, ESP8266 ve otomasyon sistemleri üzerine projeler yapıyorum.</p>
+            </div>
+        </div>
+    </section>
+
     <!-- Projeler Bölümü -->
     <section id="projects" class="p-10">
-    <h2 class="text-2xl font-semibold mb-5">Projelerim</h2>
-    <div id="projects-container" class="grid grid-cols-1 md:grid-cols-3 gap-5"></div>
+        <h2 class="text-2xl font-semibold mb-5">Projelerim</h2>
+        <div id="projects-container" class="grid grid-cols-1 md:grid-cols-3 gap-5"></div>
     </section>
    
     <!-- İletişim Bölümü -->
