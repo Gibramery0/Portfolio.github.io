@@ -211,10 +211,13 @@ textarea {
     text-align: center;
     outline: 4px solid rgba(219, 0, 0, 0);
     resize: none;
-    height: 120px;
-    overflow-y: auto; /* Dikey kaydırma özelliği */
-    scrollbar-width: none; /* Firefox için kaydırma çubuğunu gizle */
-    -ms-overflow-style: none; /* IE ve Edge için kaydırma çubuğunu gizle */
+    height: auto;
+    min-height: 40px;
+    max-height: 120px;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    line-height: 1.2;
 }
 
 textarea::-webkit-scrollbar {
@@ -300,7 +303,6 @@ textarea::-webkit-scrollbar {
 
 .message-box-textarea {
     padding: 15px;
-    height: auto;
 }
 
 @keyframes fadeOut {
@@ -481,6 +483,11 @@ textarea::-webkit-scrollbar {
             if (currentField) {
                 setTimeout(() => {
                     currentField.focus();
+                    
+                    // Eğer textarea ise otomatik büyüme fonksiyonunu bağla
+                    if (currentField.tagName.toLowerCase() === 'textarea') {
+                        autoResizeTextarea(currentField);
+                    }
                 }, 100);
             }
         }
@@ -696,6 +703,20 @@ textarea::-webkit-scrollbar {
                     // updateBottomLines();
                 }, 1000);
             }, 3000);
+        }
+
+        // Textarea'nın otomatik büyümesi için fonksiyon
+        function autoResizeTextarea(textarea) {
+            // Önce yüksekliği sıfırla
+            textarea.style.height = 'auto';
+            // Sonra içeriğe göre ayarla, ama maksimum 120px kadar
+            textarea.style.height = Math.min(120, Math.max(40, textarea.scrollHeight)) + 'px';
+            
+            // İçerik değiştikçe yüksekliği güncelle
+            textarea.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = Math.min(120, Math.max(40, this.scrollHeight)) + 'px';
+            });
         }
     </script>
 </body>
