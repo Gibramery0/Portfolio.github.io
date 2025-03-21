@@ -139,7 +139,6 @@
     gap: 65px; /* Elemanlar arasındaki boşluk */
     align-items: flex-start;
     margin-top: 80px;
-
 }
 .message-box .c {
     display: flex;
@@ -151,6 +150,7 @@
     display: flex;
     align-items: center;
     gap: 45px;
+    position: relative;
 }
 
 .message-title {
@@ -167,7 +167,6 @@
     font-size: 18px;
     color: #CDCDCD;
     display: contents;
-    
 }
 
 .input-box {
@@ -181,7 +180,6 @@
     border: 3px solid rgba(255, 255, 255, 0.2);
     transition: 0.3s;
     margin-left: 20px;
-
 }
 
 .input-box:hover {
@@ -199,6 +197,21 @@ input {
     width: 100%;
     text-align: center;
     outline: 4px solid rgba(219, 0, 0, 0);
+}
+
+textarea {
+    font-family: "Audiowide", serif;
+    font-weight: 400;
+    font-size: 25px;
+    background: transparent;
+    border: none;
+    color: white;
+    outline: none;
+    width: 100%;
+    text-align: center;
+    outline: 4px solid rgba(219, 0, 0, 0);
+    resize: none;
+    height: 120px;
 }
 
 .submit-button {
@@ -221,25 +234,61 @@ input {
     color: black;
 }
 
+.form-step {
+    display: none;
+}
 
-        .bottom-lines {
-            position: absolute;
-            bottom: 20px;
-            left: 50px;
-            display: flex;
-            gap: 5px;
-        }
-        .bottom-lines span {
-            width: 30px;
-            height: 3px;
-            background: white;
-            display: inline-block;
-            transition: all 0.3s ease;
-        }
-        .bottom-lines span:hover {
-            transform: translateY(-5px);
-            opacity: 0.8;
-        }
+.form-step.active {
+    display: flex;
+}
+
+.error-message {
+    position: absolute;
+    bottom: -30px;
+    left: 50px;
+    color: #ff5252;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.error-message.show {
+    opacity: 1;
+}
+
+.bottom-lines {
+    position: absolute;
+    bottom: 20px;
+    left: 50px;
+    display: flex;
+    gap: 5px;
+}
+.bottom-lines span {
+    width: 30px;
+    height: 3px;
+    background: white;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+.bottom-lines span:hover {
+    transform: translateY(-5px);
+    opacity: 0.8;
+}
+
+.bottom-lines span.active {
+    background: #4CAF50;
+    transform: translateY(-5px);
+}
+
+.message-box-textarea {
+    padding: 15px;
+    height: auto;
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
     </style>
 </head>
 <body>
@@ -262,29 +311,189 @@ input {
             
             <div class="divider"></div>
             
-            <div class="message-box">
-                <div class="c">
-                    <p class="message-title">leave a message</p><br>
-                    <p class="message-subtitle">Introduce yourself:</p>
-                </div>
-                
-                <div class="message-row">
-                    
-                    <div class="input-box">
-                        <input type="text" placeholder="full name">
+            <form id="contactForm">
+                <div class="message-box">
+                    <div class="c">
+                        <p class="message-title">leave a message</p><br>
+                        <p class="message-subtitle">Introduce yourself:</p>
                     </div>
-                    <button class="submit-button"><span class="material-icons">
-                        keyboard_arrow_right
-                        </span></button>
+                    
+                    <!-- Step 1: Full Name -->
+                    <div class="message-row form-step active" id="step1">
+                        <div class="input-box">
+                            <input type="text" id="fullname" placeholder="full name">
+                        </div>
+                        <button type="button" class="submit-button" onclick="nextStep(1)"><span class="material-icons">keyboard_arrow_right</span></button>
+                        <div class="error-message">Bu alan zorunludur</div>
+                    </div>
+                    
+                    <!-- Step 2: Number -->
+                    <div class="message-row form-step" id="step2">
+                        <div class="input-box">
+                            <input type="text" id="number" placeholder="number">
+                        </div>
+                        <button type="button" class="submit-button" onclick="nextStep(2)"><span class="material-icons">keyboard_arrow_right</span></button>
+                        <div class="error-message">Bu alan zorunludur</div>
+                    </div>
+
+                    <!-- Step 3: Mail -->
+                    <div class="message-row form-step" id="step3">
+                        <div class="input-box">
+                            <input type="email" id="mail" placeholder="mail">
+                        </div>
+                        <button type="button" class="submit-button" onclick="nextStep(3)"><span class="material-icons">keyboard_arrow_right</span></button>
+                        <div class="error-message">Bu alan zorunludur</div>
+                    </div>
+
+                    <!-- Step 4: Your Company -->
+                    <div class="message-row form-step" id="step4">
+                        <div class="input-box">
+                            <input type="text" id="company" placeholder="your company">
+                        </div>
+                        <button type="button" class="submit-button" onclick="nextStep(4)"><span class="material-icons">keyboard_arrow_right</span></button>
+                    </div>
+
+                    <!-- Step 5: Referans -->
+                    <div class="message-row form-step" id="step5">
+                        <div class="input-box">
+                            <input type="text" id="referans" placeholder="referans">
+                        </div>
+                        <button type="button" class="submit-button" onclick="nextStep(5)"><span class="material-icons">keyboard_arrow_right</span></button>
+                    </div>
+
+                    <!-- Step 6: Your Message -->
+                    <div class="message-row form-step" id="step6">
+                        <div class="input-box message-box-textarea">
+                            <textarea id="message" placeholder="your message"></textarea>
+                        </div>
+                        <button type="button" class="submit-button" onclick="submitForm()"><span class="material-icons">send</span></button>
+                        <div class="error-message">Bu alan zorunludur</div>
+                    </div>
                 </div>
-            </div>
-            
+            </form>
             
         </div>
         
         <div class="bottom-lines">
-            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span id="line1" class="active"></span>
+            <span id="line2"></span>
+            <span id="line3"></span>
+            <span id="line4"></span>
+            <span id="line5"></span>
+            <span id="line6"></span>
         </div>
     </div>
+
+    <script>
+        let currentStep = 1;
+        const requiredFields = ["fullname", "number", "mail", "message"];
+        
+        function nextStep(step) {
+            const currentInput = document.getElementById(getFieldIdByStep(step));
+            
+            // Zorunlu alan kontrolü
+            if (requiredFields.includes(currentInput.id) && !currentInput.value.trim()) {
+                showError(step);
+                return;
+            }
+            
+            // Mevcut adımı gizle
+            document.getElementById(`step${step}`).classList.remove('active');
+            
+            // Sonraki adıma geç
+            currentStep = step + 1;
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            
+            // Bottom line güncelle
+            updateBottomLines(currentStep);
+        }
+        
+        function getFieldIdByStep(step) {
+            switch(step) {
+                case 1: return "fullname";
+                case 2: return "number";
+                case 3: return "mail";
+                case 4: return "company";
+                case 5: return "referans";
+                case 6: return "message";
+                default: return "";
+            }
+        }
+        
+        function showError(step) {
+            const errorElement = document.querySelector(`#step${step} .error-message`);
+            errorElement.classList.add('show');
+            
+            setTimeout(() => {
+                errorElement.classList.remove('show');
+                errorElement.style.animation = 'fadeOut 2s';
+                
+                setTimeout(() => {
+                    errorElement.style.animation = '';
+                }, 2000);
+            }, 2000);
+        }
+        
+        function updateBottomLines(activeStep) {
+            // Tüm çizgileri sıfırla
+            document.querySelectorAll('.bottom-lines span').forEach(line => {
+                line.classList.remove('active');
+            });
+            
+            // Aktif çizgiyi işaretle
+            document.getElementById(`line${activeStep}`).classList.add('active');
+        }
+        
+        function submitForm() {
+            const messageField = document.getElementById('message');
+            
+            // Mesaj alanı zorunlu
+            if (!messageField.value.trim()) {
+                showError(6);
+                return;
+            }
+            
+            // Form verilerini topla
+            const formData = {
+                fullname: document.getElementById('fullname').value,
+                number: document.getElementById('number').value,
+                mail: document.getElementById('mail').value,
+                company: document.getElementById('company').value,
+                referans: document.getElementById('referans').value,
+                message: messageField.value
+            };
+            
+            // Mail gönderimi yapılacak
+            sendEmail(formData);
+        }
+        
+        function sendEmail(formData) {
+            // Burada kendi e-posta servisinizi kullanabilirsiniz
+            // Örnek olarak mailto: linki oluşturma
+            const subject = encodeURIComponent("İletişim Formu");
+            const body = encodeURIComponent(
+                `İsim: ${formData.fullname}\n` +
+                `Numara: ${formData.number}\n` +
+                `E-posta: ${formData.mail}\n` +
+                `Şirket: ${formData.company}\n` +
+                `Referans: ${formData.referans}\n` +
+                `Mesaj: ${formData.message}`
+            );
+            
+            // Kendi e-posta adresinizi buraya yazın
+            window.location.href = `mailto:ibryanar2bin5@gmail.com?subject=${subject}&body=${body}`;
+            
+            // Alternatif olarak bir e-posta API'si kullanabilirsiniz
+            // fetch('/send-email', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify(formData)
+            // });
+            
+            alert("Mesajınız gönderildi! Teşekkürler.");
+        }
+    </script>
 </body>
 </html>
