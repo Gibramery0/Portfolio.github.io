@@ -212,6 +212,13 @@ textarea {
     outline: 4px solid rgba(219, 0, 0, 0);
     resize: none;
     height: 120px;
+    overflow-y: auto; /* Dikey kaydırma özelliği */
+    scrollbar-width: none; /* Firefox için kaydırma çubuğunu gizle */
+    -ms-overflow-style: none; /* IE ve Edge için kaydırma çubuğunu gizle */
+}
+
+textarea::-webkit-scrollbar {
+    display: none; /* Chrome, Safari ve Opera için kaydırma çubuğunu gizle */
 }
 
 .submit-button {
@@ -269,15 +276,15 @@ textarea {
     background: white;
     display: inline-block;
     transition: all 0.3s ease;
+    cursor: pointer; /* Tıklanabilir olduğunu göster */
+    border-radius: 5px; /* Oval şekil vermek için */
 }
 .bottom-lines span:hover {
-    transform: translateY(-5px);
     opacity: 0.8;
 }
 
 .bottom-lines span.active {
     background: #4CAF50;
-    transform: translateY(-5px);
 }
 
 .message-box-textarea {
@@ -288,6 +295,16 @@ textarea {
 @keyframes fadeOut {
     from { opacity: 1; }
     to { opacity: 0; }
+}
+
+@keyframes stepTransition {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.form-step.active {
+    display: flex;
+    animation: stepTransition 0.5s ease;
 }
     </style>
 </head>
@@ -311,7 +328,7 @@ textarea {
             
             <div class="divider"></div>
             
-            <form id="contactForm">
+            <form id="contactForm" autocomplete="off">
                 <div class="message-box">
                     <div class="c">
                         <p class="message-title">leave a message</p><br>
@@ -321,7 +338,7 @@ textarea {
                     <!-- Step 1: Full Name -->
                     <div class="message-row form-step active" id="step1">
                         <div class="input-box">
-                            <input type="text" id="fullname" placeholder="full name">
+                            <input type="text" id="fullname" placeholder="full name" autocomplete="off">
                         </div>
                         <button type="button" class="submit-button" onclick="nextStep(1)"><span class="material-icons">keyboard_arrow_right</span></button>
                         <div class="error-message">Bu alan zorunludur</div>
@@ -330,7 +347,7 @@ textarea {
                     <!-- Step 2: Number -->
                     <div class="message-row form-step" id="step2">
                         <div class="input-box">
-                            <input type="text" id="number" placeholder="number">
+                            <input type="text" id="number" placeholder="number" autocomplete="off">
                         </div>
                         <button type="button" class="submit-button" onclick="nextStep(2)"><span class="material-icons">keyboard_arrow_right</span></button>
                         <div class="error-message">Bu alan zorunludur</div>
@@ -339,7 +356,7 @@ textarea {
                     <!-- Step 3: Mail -->
                     <div class="message-row form-step" id="step3">
                         <div class="input-box">
-                            <input type="email" id="mail" placeholder="mail">
+                            <input type="email" id="mail" placeholder="mail" autocomplete="off">
                         </div>
                         <button type="button" class="submit-button" onclick="nextStep(3)"><span class="material-icons">keyboard_arrow_right</span></button>
                         <div class="error-message">Bu alan zorunludur</div>
@@ -348,7 +365,7 @@ textarea {
                     <!-- Step 4: Your Company -->
                     <div class="message-row form-step" id="step4">
                         <div class="input-box">
-                            <input type="text" id="company" placeholder="your company">
+                            <input type="text" id="company" placeholder="your company" autocomplete="off">
                         </div>
                         <button type="button" class="submit-button" onclick="nextStep(4)"><span class="material-icons">keyboard_arrow_right</span></button>
                     </div>
@@ -356,7 +373,7 @@ textarea {
                     <!-- Step 5: Referans -->
                     <div class="message-row form-step" id="step5">
                         <div class="input-box">
-                            <input type="text" id="referans" placeholder="referans">
+                            <input type="text" id="referans" placeholder="referans" autocomplete="off">
                         </div>
                         <button type="button" class="submit-button" onclick="nextStep(5)"><span class="material-icons">keyboard_arrow_right</span></button>
                     </div>
@@ -364,7 +381,7 @@ textarea {
                     <!-- Step 6: Your Message -->
                     <div class="message-row form-step" id="step6">
                         <div class="input-box message-box-textarea">
-                            <textarea id="message" placeholder="your message"></textarea>
+                            <textarea id="message" placeholder="your message" autocomplete="off"></textarea>
                         </div>
                         <button type="button" class="submit-button" onclick="submitForm()"><span class="material-icons">send</span></button>
                         <div class="error-message">Bu alan zorunludur</div>
@@ -387,6 +404,46 @@ textarea {
     <script>
         let currentStep = 1;
         const requiredFields = ["fullname", "number", "mail", "message"];
+        const completedSteps = []; // Tamamlanan adımları takip etmek için dizi
+        
+        // Sayfa yüklendiğinde ilk girdi alanını aktif olarak işaretle
+        document.addEventListener('DOMContentLoaded', function() {
+            updateBottomLines();
+            
+            // Enter tuşu desteği ekleme
+            document.querySelectorAll('input, textarea').forEach(input => {
+                input.addEventListener('keypress', function(event) {
+                    if (event.key === 'Enter') {
+                        event.preventDefault();
+                        const step = getCurrentStepFromInput(this.id);
+                        if (step === 6) {
+                            submitForm();
+                        } else {
+                            nextStep(step);
+                        }
+                    }
+                });
+            });
+
+            // Bottom line'lara tıklama özelliği ekle
+            document.querySelectorAll('.bottom-lines span').forEach((line, index) => {
+                line.addEventListener('click', () => {
+                    goToStep(index + 1);
+                });
+            });
+        });
+        
+        function getCurrentStepFromInput(inputId) {
+            switch(inputId) {
+                case "fullname": return 1;
+                case "number": return 2;
+                case "mail": return 3;
+                case "company": return 4;
+                case "referans": return 5;
+                case "message": return 6;
+                default: return 1;
+            }
+        }
         
         function nextStep(step) {
             const currentInput = document.getElementById(getFieldIdByStep(step));
@@ -397,6 +454,13 @@ textarea {
                 return;
             }
             
+            // Bu adımı tamamlandı olarak işaretle (eğer değer girilmişse)
+            if (currentInput.value.trim() !== "") {
+                if (!completedSteps.includes(step)) {
+                    completedSteps.push(step);
+                }
+            }
+            
             // Mevcut adımı gizle
             document.getElementById(`step${step}`).classList.remove('active');
             
@@ -404,8 +468,20 @@ textarea {
             currentStep = step + 1;
             document.getElementById(`step${currentStep}`).classList.add('active');
             
+            // Bottom line güncelle - sadece doldurulmuş alanlar yeşil olacak
+            updateBottomLines();
+        }
+        
+        function goToStep(step) {
+            // Mevcut adımı gizle
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            
+            // İstenilen adıma geç
+            currentStep = step;
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            
             // Bottom line güncelle
-            updateBottomLines(currentStep);
+            updateBottomLines();
         }
         
         function getFieldIdByStep(step) {
@@ -434,14 +510,16 @@ textarea {
             }, 2000);
         }
         
-        function updateBottomLines(activeStep) {
+        function updateBottomLines() {
             // Tüm çizgileri sıfırla
-            document.querySelectorAll('.bottom-lines span').forEach(line => {
+            document.querySelectorAll('.bottom-lines span').forEach((line, index) => {
                 line.classList.remove('active');
+                
+                // Sadece tamamlanan adımları yeşil yap
+                if (completedSteps.includes(index + 1)) {
+                    line.classList.add('active');
+                }
             });
-            
-            // Aktif çizgiyi işaretle
-            document.getElementById(`line${activeStep}`).classList.add('active');
         }
         
         function submitForm() {
@@ -453,46 +531,86 @@ textarea {
                 return;
             }
             
+            // Bu adımı tamamlandı olarak işaretle
+            if (!completedSteps.includes(6)) {
+                completedSteps.push(6);
+                updateBottomLines();
+            }
+            
             // Form verilerini topla
             const formData = {
                 fullname: document.getElementById('fullname').value,
                 number: document.getElementById('number').value,
                 mail: document.getElementById('mail').value,
-                company: document.getElementById('company').value,
-                referans: document.getElementById('referans').value,
+                company: document.getElementById('company').value || "Belirtilmedi",
+                referans: document.getElementById('referans').value || "Belirtilmedi",
                 message: messageField.value
             };
             
-            // Mail gönderimi yapılacak
-            sendEmail(formData);
+            // Text dosyası oluştur ve indir
+            createAndDownloadTextFile(formData);
         }
         
-        function sendEmail(formData) {
-            // Burada kendi e-posta servisinizi kullanabilirsiniz
-            // Örnek olarak mailto: linki oluşturma
-            const subject = encodeURIComponent("İletişim Formu");
-            const body = encodeURIComponent(
+        function createAndDownloadTextFile(formData) {
+            // Şu anki tarihi al
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('tr-TR');
+            const timeStr = now.toLocaleTimeString('tr-TR');
+            
+            // Dosya içeriğini oluştur
+            const fileContent = 
+                `İLETİŞİM FORMU (${dateStr} - ${timeStr})\n` +
+                `------------------------------------------\n` +
                 `İsim: ${formData.fullname}\n` +
                 `Numara: ${formData.number}\n` +
                 `E-posta: ${formData.mail}\n` +
                 `Şirket: ${formData.company}\n` +
                 `Referans: ${formData.referans}\n` +
-                `Mesaj: ${formData.message}`
-            );
+                `Mesaj: ${formData.message}\n`;
             
-            // Kendi e-posta adresinizi buraya yazın
-            window.location.href = `mailto:ibryanar2bin5@gmail.com?subject=${subject}&body=${body}`;
+            // Dosya adını oluştur (isim ve tarih ile)
+            const filename = `${formData.fullname.replace(/\s+/g, '_')}_${dateStr.replace(/\//g, '-')}.txt`;
             
-            // Alternatif olarak bir e-posta API'si kullanabilirsiniz
-            // fetch('/send-email', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify(formData)
-            // });
+            // Dosya oluştur ve indir
+            const element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(fileContent));
+            element.setAttribute('download', filename);
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
             
-            alert("Mesajınız gönderildi! Teşekkürler.");
+            // Başarı mesajını göster
+            const formContainer = document.querySelector('.message-box');
+            const successDiv = document.createElement('div');
+            successDiv.textContent = 'Mesajınız kaydedildi! Teşekkürler.';
+            successDiv.style.position = 'absolute';
+            successDiv.style.top = '50%';
+            successDiv.style.left = '50%';
+            successDiv.style.transform = 'translate(-50%, -50%)';
+            successDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+            successDiv.style.color = '#4CAF50';
+            successDiv.style.padding = '20px';
+            successDiv.style.borderRadius = '10px';
+            successDiv.style.fontSize = '18px';
+            successDiv.style.zIndex = '100';
+            formContainer.appendChild(successDiv);
+            
+            // 3 saniye sonra mesajı kaldır ve formu sıfırla
+            setTimeout(() => {
+                successDiv.style.opacity = '0';
+                successDiv.style.transition = 'opacity 1s';
+                
+                setTimeout(() => {
+                    formContainer.removeChild(successDiv);
+                    document.getElementById('contactForm').reset();
+                    
+                    // İsterseniz formu sıfırlayıp ilk adıma dönebilirsiniz
+                    // goToStep(1);
+                    // completedSteps.length = 0;
+                    // updateBottomLines();
+                }, 1000);
+            }, 3000);
         }
     </script>
 </body>
