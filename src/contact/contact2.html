@@ -287,6 +287,17 @@ textarea::-webkit-scrollbar {
     background: #4CAF50;
 }
 
+.bottom-lines span.current {
+    transform: translateY(-8px);
+    animation: pulseUp 1.5s infinite ease-in-out;
+}
+
+@keyframes pulseUp {
+    0% { transform: translateY(-8px); }
+    50% { transform: translateY(-12px); }
+    100% { transform: translateY(-8px); }
+}
+
 .message-box-textarea {
     padding: 15px;
     height: auto;
@@ -409,6 +420,7 @@ textarea::-webkit-scrollbar {
         // Sayfa yüklendiğinde ilk girdi alanını aktif olarak işaretle
         document.addEventListener('DOMContentLoaded', function() {
             updateBottomLines();
+            focusCurrentInput();
             
             // Enter tuşu desteği ekleme
             document.querySelectorAll('input, textarea').forEach(input => {
@@ -445,17 +457,62 @@ textarea::-webkit-scrollbar {
             }
         }
         
+        function validateFullName(fullname) {
+            // En az iki kelime kontrolü (ad ve soyad)
+            const words = fullname.trim().split(/\s+/);
+            return words.length >= 2;
+        }
+        
+        function validateEmail(email) {
+            // Basit e-posta doğrulama regex
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+        
+        function validatePhoneNumber(number) {
+            // Telefon numarası doğrulama: Sadece rakamlar ve en az 10 karakter
+            const cleanNumber = number.replace(/\D/g, ''); // Sadece rakamları al
+            return cleanNumber.length >= 10;
+        }
+        
+        function focusCurrentInput() {
+            // Mevcut adımdaki input alanına odaklan
+            const currentField = document.getElementById(getFieldIdByStep(currentStep));
+            if (currentField) {
+                setTimeout(() => {
+                    currentField.focus();
+                }, 100);
+            }
+        }
+        
         function nextStep(step) {
             const currentInput = document.getElementById(getFieldIdByStep(step));
+            const inputValue = currentInput.value.trim();
+            
+            // Özel validasyonlar
+            if (step === 1 && !validateFullName(inputValue)) {
+                showCustomError(step, "Lütfen ad ve soyadınızı giriniz");
+                return;
+            }
+            
+            if (step === 2 && !validatePhoneNumber(inputValue)) {
+                showCustomError(step, "Geçerli bir telefon numarası giriniz");
+                return;
+            }
+            
+            if (step === 3 && !validateEmail(inputValue)) {
+                showCustomError(step, "Geçerli bir e-posta adresi giriniz");
+                return;
+            }
             
             // Zorunlu alan kontrolü
-            if (requiredFields.includes(currentInput.id) && !currentInput.value.trim()) {
+            if (requiredFields.includes(currentInput.id) && !inputValue) {
                 showError(step);
                 return;
             }
             
             // Bu adımı tamamlandı olarak işaretle (eğer değer girilmişse)
-            if (currentInput.value.trim() !== "") {
+            if (inputValue !== "") {
                 if (!completedSteps.includes(step)) {
                     completedSteps.push(step);
                 }
@@ -470,6 +527,25 @@ textarea::-webkit-scrollbar {
             
             // Bottom line güncelle - sadece doldurulmuş alanlar yeşil olacak
             updateBottomLines();
+            
+            // Yeni input alanına focus yap
+            focusCurrentInput();
+        }
+        
+        function showCustomError(step, message) {
+            const errorElement = document.querySelector(`#step${step} .error-message`);
+            errorElement.textContent = message;
+            errorElement.classList.add('show');
+            
+            setTimeout(() => {
+                errorElement.classList.remove('show');
+                errorElement.style.animation = 'fadeOut 2s';
+                
+                setTimeout(() => {
+                    errorElement.style.animation = '';
+                    errorElement.textContent = "Bu alan zorunludur"; // Varsayılan mesaja geri dön
+                }, 2000);
+            }, 2000);
         }
         
         function goToStep(step) {
@@ -482,6 +558,9 @@ textarea::-webkit-scrollbar {
             
             // Bottom line güncelle
             updateBottomLines();
+            
+            // Input alanına fokuslan
+            focusCurrentInput();
         }
         
         function getFieldIdByStep(step) {
@@ -514,10 +593,16 @@ textarea::-webkit-scrollbar {
             // Tüm çizgileri sıfırla
             document.querySelectorAll('.bottom-lines span').forEach((line, index) => {
                 line.classList.remove('active');
+                line.classList.remove('current');
                 
                 // Sadece tamamlanan adımları yeşil yap
                 if (completedSteps.includes(index + 1)) {
                     line.classList.add('active');
+                }
+                
+                // Mevcut adımda olan çizgiyi yukarı hareket ettir
+                if (index + 1 === currentStep) {
+                    line.classList.add('current');
                 }
             });
         }
