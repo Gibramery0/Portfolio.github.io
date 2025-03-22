@@ -7,8 +7,10 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+    <!-- Font Awesome ikon kütüphanesi -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         body {
             margin: 0;
@@ -60,12 +62,89 @@
     border: 2px solid rgba(255, 255, 255, 0.3);
     text-align: center;
     transition: 0.3s;
-    width: 46px;
-
+    width: 55px;
+    height: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
         }
         .menu-button:hover {
+            background: transparent;
+        }
+        .menu-button .bar {
+            width: 35px;
+            height: 3px;
+            background-color: white;
+            position: absolute;
+            transition: all 0.3s ease;
+        }
+        .menu-button .bar:nth-child(1) {
+            transform: translateY(-10px);
+        }
+        .menu-button .bar:nth-child(3) {
+            transform: translateY(10px);
+        }
+        .menu-button:hover .bar:nth-child(1),
+        .menu-button.active .bar:nth-child(1) {
+            transform: rotate(45deg);
+        }
+        .menu-button:hover .bar:nth-child(2),
+        .menu-button.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+        .menu-button:hover .bar:nth-child(3),
+        .menu-button.active .bar:nth-child(3) {
+            transform: rotate(-45deg);
+        }
+        .social-media {
+            position: absolute;
+            top: 80px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-20px);
+            transition: all 0.5s ease;
+        }
+        .social-media.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: 0.3s;
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 0.5s ease forwards;
+            opacity: 0;
+        }
+        .social-icon:hover {
             background: white;
             color: black;
+            transform: scale(1.1);
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         .content {
             width: 90%;
@@ -319,6 +398,114 @@ textarea::-webkit-scrollbar {
     display: flex;
     animation: stepTransition 0.5s ease;
 }
+
+/* Sosyal medya menüsü */
+.social-media-menu {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    margin: 0;
+    padding: 55px 0 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s ease;
+    z-index: 998;
+    background-color: #dedede;
+    border-radius: 30px;
+    width: 70px;
+    transform: translateY(-100%);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.menu-button:hover + .social-media-menu,
+.social-media-menu:hover,
+.menu-button.active + .social-media-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.social-media-menu li {
+    list-style: none;
+    margin: 12px 0;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.3s ease;
+    transition-delay: calc(0.1s * var(--delay));
+}
+
+.menu-button:hover + .social-media-menu li,
+.social-media-menu:hover li,
+.menu-button.active + .social-media-menu li {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.social-media-menu li a {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    display: block;
+    text-align: center;
+    border-radius: 50%;
+    padding: 6px;
+    box-sizing: border-box;
+    text-decoration: none;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+    background: linear-gradient(0deg, rgba(221,221,221,0.5), rgba(255,255,255,0.5));
+    transition: .5s;
+}
+
+.social-media-menu li a:hover {
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.social-media-menu li a .fab {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background: linear-gradient(0deg, rgba(255,255,255,0.5), rgba(221,221,221,0.5));
+    border-radius: 50%;
+    line-height: calc(50px - 12px);
+    font-size: 22px;
+    color: #333;
+    transition: .5s;
+}
+
+/* Sosyal medya ikonlarının hover durumunda renk değişimi */
+.social-media-menu li:nth-child(1) a:hover .fab {
+    color: #333;
+}
+
+.social-media-menu li:nth-child(2) a:hover .fab {
+    color: #007bb6;
+}
+
+.social-media-menu li:nth-child(3) a:hover .fab {
+    color: #00ab6c; /* Medium yeşil rengi */
+}
+
+.social-media-menu li:nth-child(4) a:hover .fab {
+    color: #FF0000;
+}
+
+.social-media-menu li:nth-child(5) a:hover .fab {
+    color: #e4405f;
+}
+
+/* SVG stil ayarlarını kaldırıyorum */
+/* Bionluk ikonu için özel ayarlar */
+.social-media-menu li:nth-child(3) a svg {
+    width: 65%;
+    height: 65%;
+    margin: 8px auto 0;
+    display: block;
+    fill: #333; 
+}
+
     </style>
 </head>
 <body>
@@ -328,7 +515,19 @@ textarea::-webkit-scrollbar {
             <br>
             <div class="surname">Yanar</div>
         </header>
-        <div class="menu-button">☰</div>
+        <div class="menu-button">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        
+        <ul class="social-media-menu">
+            <li style="--delay: 1;"><a href="#"><i class="fab fa-github" aria-hidden="true"></i></a></li>
+            <li style="--delay: 2;"><a href="#"><i class="fab fa-linkedin" aria-hidden="true"></i></a></li>
+            <li style="--delay: 3;"><a href="#"><i class="fab fa-medium-m" aria-hidden="true"></i></a></li>
+            <li style="--delay: 4;"><a href="#"><i class="fab fa-youtube" aria-hidden="true"></i></a></li>
+            <li style="--delay: 5;"><a href="#"><i class="fab fa-instagram" aria-hidden="true"></i></a></li>
+        </ul>
         
         <div class="content">
             <h1 class="title">contact</h1>
@@ -424,6 +623,30 @@ textarea::-webkit-scrollbar {
             updateBottomLines();
             focusCurrentInput();
             
+            // Telefon alanı için eş zamanlı formatlama
+            const phoneInput = document.getElementById('number');
+            phoneInput.addEventListener('input', function() {
+                const cursorPosition = this.selectionStart;
+                const oldLength = this.value.length;
+                
+                // Telefon numarasını formatla
+                this.value = formatPhoneNumber(this.value);
+                
+                // Kursor pozisyonunu ayarla (formatlama nedeniyle değişmiş olabilir)
+                if (this.value.length !== oldLength) {
+                    // Eğer uzunluk değiştiyse, pozisyonu uygun şekilde ayarla
+                    this.setSelectionRange(cursorPosition + (this.value.length - oldLength), cursorPosition + (this.value.length - oldLength));
+                } else {
+                    this.setSelectionRange(cursorPosition, cursorPosition);
+                }
+            });
+
+            // Menü butonu tıklama işlevi
+            const menuButton = document.querySelector('.menu-button');
+            menuButton.addEventListener('click', function() {
+                this.classList.toggle('active');
+            });
+
             // Enter tuşu desteği ekleme
             document.querySelectorAll('input, textarea').forEach(input => {
                 input.addEventListener('keypress', function(event) {
@@ -472,9 +695,42 @@ textarea::-webkit-scrollbar {
         }
         
         function validatePhoneNumber(number) {
-            // Telefon numarası doğrulama: Sadece rakamlar ve en az 10 karakter
+            // Telefon numarası doğrulama: Sadece rakamlar ve 4-15 karakter arasında
             const cleanNumber = number.replace(/\D/g, ''); // Sadece rakamları al
-            return cleanNumber.length >= 10;
+            return cleanNumber.length >= 4 && cleanNumber.length <= 15;
+        }
+        
+        // Telefon numarasını boşluklarla formatla
+        function formatPhoneNumber(number) {
+            // Sadece rakamları al
+            let digits = number.replace(/\D/g, '');
+            
+            // Telefon numarası uzunluğuna göre farklı formatlama
+            if (digits.length <= 2) {
+                // 2 veya daha az rakam için değişiklik yapma
+                return digits;
+            } else if (digits.length <= 5) {
+                // XX XXX formatı (2+3)
+                return digits.slice(0, 2) + " " + digits.slice(2);
+            } else if (digits.length <= 8) {
+                // XX XXX XXX formatı (2+3+3)
+                return digits.slice(0, 2) + " " + digits.slice(2, 5) + " " + digits.slice(5);
+            } else if (digits.length <= 10) {
+                // XXX XXX XX XX formatı (3+3+2+2)
+                return digits.slice(0, 3) + " " + digits.slice(3, 6) + " " + digits.slice(6, 8) + " " + digits.slice(8);
+            } else if (digits.length <= 11) {
+                // XXXX XXX XX XX formatı (4+3+2+2)
+                return digits.slice(0, 4) + " " + digits.slice(4, 7) + " " + digits.slice(7, 9) + " " + digits.slice(9);
+            } else {
+                // XX XXX XXX XX XX formatı (2+3+3+2+2)
+                if (digits.length >= 12) {
+                    return digits.slice(0, 2) + " " + digits.slice(2, 5) + " " + digits.slice(5, 8) + " " + 
+                           digits.slice(8, 10) + " " + digits.slice(10, 12);
+                } else {
+                    // Yeterli rakam yoksa, mevcut rakamları düzgünce formatla
+                    return digits.slice(0, 2) + " " + digits.slice(2, 5) + " " + digits.slice(5, 8) + " " + digits.slice(8);
+                }
+            }
         }
         
         function focusCurrentInput() {
@@ -502,9 +758,14 @@ textarea::-webkit-scrollbar {
                 return;
             }
             
-            if (step === 2 && !validatePhoneNumber(inputValue)) {
-                showCustomError(step, "Geçerli bir telefon numarası giriniz");
-                return;
+            if (step === 2) {
+                if (!validatePhoneNumber(inputValue)) {
+                    showCustomError(step, "Geçerli bir telefon numarası giriniz (4-15 rakam)");
+                    return;
+                } else {
+                    // Telefon numarasını formatla ve input değerini güncelle
+                    currentInput.value = formatPhoneNumber(inputValue);
+                }
             }
             
             if (step === 3 && !validateEmail(inputValue)) {
@@ -641,6 +902,30 @@ textarea::-webkit-scrollbar {
             
             // Text dosyası oluştur ve indir
             createAndDownloadTextFile(formData);
+            
+            // Mesajı değiştir
+            messageField.value = "We got your message!";
+            messageField.disabled = true;
+            
+            // 5 saniye sonra formu sıfırla ve baştan başlat
+            setTimeout(() => {
+                document.getElementById('contactForm').reset();
+                messageField.disabled = false;
+                
+                // İlk adıma dön
+                document.getElementById(`step${currentStep}`).classList.remove('active');
+                currentStep = 1;
+                document.getElementById(`step${currentStep}`).classList.add('active');
+                
+                // Tamamlanan adımları temizle
+                completedSteps.length = 0;
+                
+                // Bottom line'ları güncelle
+                updateBottomLines();
+                
+                // İlk alanı odakla
+                focusCurrentInput();
+            }, 5000);
         }
         
         function createAndDownloadTextFile(formData) {
@@ -671,38 +956,6 @@ textarea::-webkit-scrollbar {
             document.body.appendChild(element);
             element.click();
             document.body.removeChild(element);
-            
-            // Başarı mesajını göster
-            const formContainer = document.querySelector('.message-box');
-            const successDiv = document.createElement('div');
-            successDiv.textContent = 'Mesajınız kaydedildi! Teşekkürler.';
-            successDiv.style.position = 'absolute';
-            successDiv.style.top = '50%';
-            successDiv.style.left = '50%';
-            successDiv.style.transform = 'translate(-50%, -50%)';
-            successDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-            successDiv.style.color = '#4CAF50';
-            successDiv.style.padding = '20px';
-            successDiv.style.borderRadius = '10px';
-            successDiv.style.fontSize = '18px';
-            successDiv.style.zIndex = '100';
-            formContainer.appendChild(successDiv);
-            
-            // 3 saniye sonra mesajı kaldır ve formu sıfırla
-            setTimeout(() => {
-                successDiv.style.opacity = '0';
-                successDiv.style.transition = 'opacity 1s';
-                
-                setTimeout(() => {
-                    formContainer.removeChild(successDiv);
-                    document.getElementById('contactForm').reset();
-                    
-                    // İsterseniz formu sıfırlayıp ilk adıma dönebilirsiniz
-                    // goToStep(1);
-                    // completedSteps.length = 0;
-                    // updateBottomLines();
-                }, 1000);
-            }, 3000);
         }
 
         // Textarea'nın otomatik büyümesi için fonksiyon
