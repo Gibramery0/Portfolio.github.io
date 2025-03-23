@@ -31,26 +31,44 @@ async function fetchRepositories() {
         projectsContainer.classList.remove("gap-5");
         projectsContainer.classList.add("gap-0");
         
+        // Arka plan rengini ekle
+        document.querySelector('#projects').classList.add('bg-gray-100');
+        
         projectsContainer.innerHTML = ""; 
 
         // Projeleri yükle ve animasyonla göster
         repositories.forEach(async (repo, index) => {
-            const projectName = repo.name;
+            // "-" ve "_" karakterlerini boşlukla değiştir
+            const projectName = repo.name.replace(/[-_]/g, ' ');
             const projectUrl = repo.html_url;
-            const projectDescription = repo.description; // "Açıklama bulunmuyor" yedeği yok
+            const projectDescription = repo.description; 
             console.log(`Proje yükleniyor: ${projectName}`);
             
             try {
-                const projectImage = await getProjectImage(username, projectName);
+                const projectImage = await getProjectImage(username, repo.name);
+                const hasImage = projectImage !== "src/images/default.jpg";
 
                 const projectCard = document.createElement("div");
-                projectCard.className = "p-0 cursor-pointer transform hover:scale-105 transition-all opacity-0 relative";
+                projectCard.className = "p-0 cursor-pointer transform hover:scale-105 transition-all opacity-0 relative bg-gray-100";
                 projectCard.style.animation = `fadeIn 0.5s ease forwards ${index * 0.1}s`;
+                
+                let imageContent = '';
+                if (hasImage) {
+                    imageContent = `<img src="${projectImage}" alt="${projectName}" class="w-full h-60 object-cover">`;
+                } else {
+                    // Fotoğraf ikonu göster
+                    imageContent = `
+                    <div class="w-full h-60 bg-gray-200 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </div>`;
+                }
                 
                 let cardContent = `
                     <a href="${projectUrl}" target="_blank" class="block">
                         <div class="relative overflow-visible">
-                            <img src="${projectImage}" alt="${projectName}" class="w-full h-60 object-cover">
+                            ${imageContent}
                             <div class="absolute -bottom-5 left-0 right-0 z-10">
                                 <div class="bg-white mx-auto w-4/5 py-2 px-4 rounded-full shadow-lg text-center border border-gray-200">
                                     <p class="text-lg font-semibold text-blue-700 truncate">${projectName}</p>
@@ -61,12 +79,12 @@ async function fetchRepositories() {
                 // Açıklama varsa ekle (boş açıklama gösterme)
                 if (projectDescription) {
                     cardContent += `
-                        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-5 pt-10">
+                        <div class="bg-gray-100 p-5 pt-10">
                             <p class="text-sm text-gray-600 text-center mt-4">${projectDescription}</p>
                         </div>`;
                 } else {
                     cardContent += `
-                        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-5 pt-10">
+                        <div class="bg-gray-100 p-5 pt-10">
                             <!-- Boş açıklama alanı -->
                         </div>`;
                 }
@@ -80,19 +98,23 @@ async function fetchRepositories() {
                 
                 // Hata olsa bile basit bir kart gösterelim
                 const projectCard = document.createElement("div");
-                projectCard.className = "p-0 cursor-pointer transform hover:scale-105 transition-all opacity-0 relative";
+                projectCard.className = "p-0 cursor-pointer transform hover:scale-105 transition-all opacity-0 relative bg-gray-100";
                 projectCard.style.animation = `fadeIn 0.5s ease forwards ${index * 0.1}s`;
                 projectCard.innerHTML = `
                     <a href="${projectUrl}" target="_blank" class="block">
                         <div class="relative overflow-visible">
-                            <img src="src/images/default.jpg" alt="${projectName}" class="w-full h-60 object-cover">
+                            <div class="w-full h-60 bg-gray-200 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                            </div>
                             <div class="absolute -bottom-5 left-0 right-0 z-10">
                                 <div class="bg-white mx-auto w-4/5 py-2 px-4 rounded-full shadow-lg text-center border border-gray-200">
                                     <p class="text-lg font-semibold text-blue-700 truncate">${projectName}</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-5 pt-10">
+                        <div class="bg-gray-100 p-5 pt-10">
                             <!-- Boş açıklama alanı -->
                         </div>
                     </a>

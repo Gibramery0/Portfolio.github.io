@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome ikon kütüphanesi -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
@@ -278,6 +279,27 @@
             from { transform: translateY(20px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
+
+        /* Futuristic title for Projects */
+        .futuristic-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #2563eb;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 5px rgba(37, 99, 235, 0.3);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .futuristic-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 25%;
+            width: 50%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #2563eb, transparent);
+        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-900">
@@ -393,7 +415,7 @@
 
     <!-- Projeler Bölümü -->
     <section id="projects" class="p-10">
-        <h2 class="text-2xl font-semibold mb-5 text-center">Projelerim</h2>
+        <h2 class="futuristic-title text-2xl font-semibold mb-8 text-center">Projelerim</h2>
         <div id="projects-container" class="grid grid-cols-1 md:grid-cols-3 gap-0">
             <!-- Yükleme animasyonu -->
             <div id="loading-animation" class="col-span-3 flex justify-center items-center py-20">
