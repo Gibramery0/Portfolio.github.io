@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolyo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="src/style/main.css">
+    <script defer src="src/scripts/main.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+    <!-- Font Awesome ikon kütüphanesi -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Navbar Styles */
+        .navbar {
+            transition: transform 0.3s ease, width 0.3s ease, opacity 0.3s ease, font-size 0.3s ease;
+            max-width: 1300px;
+            width: 70%;
+        }
+        
+        .navbar-hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+        
+        .navbar-scroll {
+            width: 90% !important;
+            background-color: rgba(255, 255, 255, 0.4) !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        /* Responsive navbar font size */
+        @media (max-width: 1300px) {
+            .navbar-menu a {
+                font-size: calc(0.7rem + 0.3vw);
+                padding-left: calc(0.5rem + 0.3vw) !important;
+                padding-right: calc(0.5rem + 0.3vw) !important;
+            }
+            
+            .navbar {
+                width: 80%;
+            }
+        }
+        
+        @media (max-width: 1000px) {
+            .navbar {
+                width: 90%;
+            }
+        }
+
+        /* Navbar menu items */
+        .navbar-menu {
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-menu li {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Navbar üzerindeki içeriklerin iç içe girmemesi için */
+        @media (max-width: 768px) {
+            .navbar {
+                width: 95%;
+            }
+            
+            .navbar-menu-mobile {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                border-radius: 0 0 1rem 1rem;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                padding: 1rem;
+                z-index: 40;
+            }
+            
+            .navbar-menu-mobile li {
+                margin-bottom: 0.5rem;
+                width: 100%;
+            }
+            
+            .navbar-menu-mobile a {
+                display: block;
+                padding: 0.5rem;
+                width: 100%;
+                text-align: center;
+            }
+        }
+        
+        /* Contact Form Styles */
+        .message-box {
+            display: flex;
+            align-items: flex-start; 
+            gap: 65px;
+            margin-top: 80px;
+        }
+        
+        .message-box .c {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message-row {
+            display: flex;
+            align-items: center;
+            gap: 45px;
+            position: relative;
+        }
+
+        .message-title {
+            font-family: "Audiowide", serif;
+            font-weight: 400;
+            font-size: 32px;
+            color: #333;
+            letter-spacing: -0.08em;
+            line-height: 0.93em;
+            text-transform: lowercase;
+            display: contents;
+        }
+        
+        .message-subtitle {
+            font-size: 18px;
+            color: #666;
+            display: contents;
+        }
+
+        .input-box {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            border-radius: 70px;
+            width: 450px;
+            border: 3px solid rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+            margin-left: 20px;
+        }
+
+        .input-box:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        input {
+            font-family: "Audiowide", serif;
+            font-weight: 400;
+            font-size: 35px;
+            background: transparent;
+            border: none;
+            color: #333;
+            outline: none;
+            width: 100%;
+            text-align: center;
+        }
+
+        textarea {
+            font-family: "Audiowide", serif;
+            font-weight: 400;
+            font-size: 25px;
+            background: transparent;
+            border: none;
+            color: #333;
+            outline: none;
+            width: 100%;
+            text-align: center;
+            resize: none;
+            height: auto;
+            min-height: 40px;
+            max-height: 120px;
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            line-height: 1.2;
+        }
+
+        textarea::-webkit-scrollbar {
+            display: none;
+        }
+
+        .submit-button {
+            font-size: 35px;
+            cursor: pointer;
+            border-radius: 50%;
+            border: 2px solid rgba(0, 0, 0, 0.3);
+            transition: 0.3s;
+            width: 65px;
+            height: 65px;
+            background: transparent;
+            color: #333;
+        }
+        
+        .submit-button:hover {
+            background: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: flex;
+            animation: stepTransition 0.5s ease;
+        }
+
+        .error-message {
+            position: absolute;
+            bottom: -30px;
+            left: 50px;
+            color: #ff5252;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .error-message.show {
+            opacity: 1;
+        }
+
+        .bottom-lines {
+            display: flex;
+            gap: 5px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        
+        .bottom-lines span {
+            width: 30px;
+            height: 3px;
+            background: #ccc;
+            display: inline-block;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        
+        .bottom-lines span:hover {
+            opacity: 0.8;
+        }
+
+        .bottom-lines span.active {
+            background: #4CAF50;
+        }
+
+        .bottom-lines span.current {
+            transform: translateY(-8px);
+            animation: pulseUp 1.5s infinite ease-in-out;
+        }
+
+        @keyframes pulseUp {
+            0% { transform: translateY(-8px); }
+            50% { transform: translateY(-12px); }
+            100% { transform: translateY(-8px); }
+        }
+
+        .message-box-textarea {
+            padding: 15px;
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        @keyframes stepTransition {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+    <!-- Navbar -->
+    <nav id="navbar" class="navbar bg-white bg-opacity-40 backdrop-blur-lg shadow-md fixed top-0 left-0 right-0 mx-auto z-50 rounded-full">
+        <div class="max-w-full mx-auto px-4">
+            <div class="flex justify-between items-center py-3">
+                <a href="#" class="text-xl font-bold text-blue-600">İbrahim</a>
+
+                <!-- Hamburger Menu -->
+                <button id="menu-btn" class="md:hidden focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+
+                <!-- Menü -->
+                <ul id="menu" class="hidden md:flex navbar-menu space-x-2 text-gray-700">
+                    <li><a href="#" class="hover:bg-blue-600 hover:text-white transition-all duration-300 px-4 py-2 rounded-full bg-opacity-60 border border-transparent">Ana Sayfa</a></li>
+                    <li><a href="#about" class="hover:bg-blue-600 hover:text-white transition-all duration-300 px-4 py-2 rounded-full bg-opacity-60 border border-transparent">Hakkımda</a></li>
+                    <li><a href="#skills" class="hover:bg-blue-600 hover:text-white transition-all duration-300 px-4 py-2 rounded-full bg-opacity-60 border border-transparent">Yeteneklerim</a></li>
+                    <li><a href="#projects" class="hover:bg-blue-600 hover:text-white transition-all duration-300 px-4 py-2 rounded-full bg-opacity-60 border border-transparent">Projeler</a></li>
+                    <li><a href="#contactSection" class="hover:bg-blue-600 hover:text-white transition-all duration-300 px-4 py-2 rounded-full bg-opacity-60 border border-transparent">İletişim</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Bölümü -->
+    <section class="h-screen flex flex-col justify-center items-center text-center mt-16">
+        <h1 class="text-4xl font-bold">Merhaba, Ben <span class="text-blue-600">İbrahim</span></h1>
+        <p class="text-lg text-gray-700 mt-2">Bilgisayar Programcısıyım</p>
+    </section>
+
+    <!-- Hakkımda Bölümü -->
+    <section id="about" class="py-20 px-10 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-6">Hakkımda</h2>
+            <p class="text-lg text-gray-200">
+                Bilgisayar programcısıyım ve yazılım geliştirme konularında tutkulu biriyim. Full-stack geliştirme, mobil uygulamalar, IoT ve otomasyon sistemleri üzerine çalışıyorum.
+            </p>
+        </div>
+
+        <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Kart 1 -->
+            <div class="p-6 bg-white bg-opacity-40 backdrop-blur-lg shadow-lg border border-gray-200 rounded-lg text-center">
+                <img src="src/images/code-icon.png" alt="Kodlama" class="w-16 mx-auto mb-4">
+                <h3 class="text-xl font-semibold text-black">Full-Stack Geliştirici</h3>
+                <p class="text-gray-800">Frontend ve backend geliştirme yapıyorum.</p>
+            </div>
+
+            <!-- Kart 2 -->
+            <div class="p-6 bg-white bg-opacity-40 backdrop-blur-lg shadow-lg border border-gray-200 rounded-lg text-center">
+                <img src="src/images/mobile-icon.png" alt="Mobil" class="w-16 mx-auto mb-4">
+                <h3 class="text-xl font-semibold text-black">Mobil Geliştirme</h3>
+                <p class="text-gray-800">Flutter ve Android Studio ile mobil uygulamalar geliştiriyorum.</p>
+            </div>
+
+            <!-- Kart 3 -->
+            <div class="p-6 bg-white bg-opacity-40 backdrop-blur-lg shadow-lg border border-gray-200 rounded-lg text-center">
+                <img src="src/images/iot-icon.png" alt="IoT" class="w-16 mx-auto mb-4">
+                <h3 class="text-xl font-semibold text-black">IoT & Otomasyon</h3>
+                <p class="text-gray-800">Arduino, ESP8266 ve otomasyon sistemleri üzerine projeler yapıyorum.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Yetenekler Bölümü -->
+    <section id="skills" class="p-10 bg-gray-100">
+        <h2 class="text-2xl font-semibold mb-5">Yeteneklerim</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="flex flex-col items-center p-5 bg-white rounded-lg shadow-md">
+                <!-- Kod ikonu için SVG -->
+                <div class="w-20 h-20 flex items-center justify-center text-blue-600 mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-12 h-12">
+                        <polyline points="16 18 22 12 16 6"></polyline>
+                        <polyline points="8 6 2 12 8 18"></polyline>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Yazılım Geliştirme</h3>
+                <p class="text-center text-gray-600">Python, JavaScript, Java gibi dillerde uygulama geliştirme deneyimi.</p>
+            </div>
+            
+            <div class="flex flex-col items-center p-5 bg-white rounded-lg shadow-md">
+                <!-- Mobil ikonu için SVG -->
+                <div class="w-20 h-20 flex items-center justify-center text-blue-600 mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-12 h-12">
+                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                        <line x1="12" y1="18" x2="12" y2="18"></line>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Mobil Uygulama Geliştirme</h3>
+                <p class="text-center text-gray-600">Android ve iOS için modern mobil uygulamalar geliştirme.</p>
+            </div>
+            
+            <div class="flex flex-col items-center p-5 bg-white rounded-lg shadow-md">
+                <!-- IoT ikonu için SVG -->
+                <div class="w-20 h-20 flex items-center justify-center text-blue-600 mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-12 h-12">
+                        <path d="M16.5 9.4l-9-5.19"></path>
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                        <circle cx="7.5" cy="4.21" r="1"></circle>
+                        <circle cx="12" cy="21" r="1"></circle>
+                        <circle cx="18.5" cy="14.79" r="1"></circle>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">IoT Projeleri</h3>
+                <p class="text-center text-gray-600">Arduino ve Raspberry Pi kullanarak akıllı cihaz projeleri geliştirme.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projeler Bölümü -->
+    <section id="projects" class="p-10">
+        <h2 class="text-2xl font-semibold mb-5 text-center">Projelerim</h2>
+        <div id="projects-container" class="grid grid-cols-1 md:grid-cols-3 gap-0">
+            <!-- Yükleme animasyonu -->
+            <div id="loading-animation" class="col-span-3 flex justify-center items-center py-20">
+                <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600"></div>
+            </div>
+        </div>
+    </section>
+   
+    <!-- İletişim Bölümü (Contact2.html iframe) -->
+    <section id="contactSection" class="h-screen">
+        <iframe src="src/contact/contact2.html" width="100%" height="100%" frameborder="0" style="border:none; overflow:hidden; display:block;"></iframe>
+    </section>
+
+    <script src="src/scripts/github-projects.js"></script>
+
+    <script>
+        // Projelerin yüklenmesi için script
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingAnimation = document.getElementById('loading-animation');
+            
+            // GitHub projelerinin yüklenmesini bekleyin (github-projects.js'den gelen bir olay dinleyicisi olduğunu varsayalım)
+            // Projelerin yüklenmesi tamamlandığında animasyonu gizleyin
+            
+            // Örnek olarak, 2 saniye sonra animasyonu gizleyelim (gerçek uygulamada projelerin yüklenmesi olayını dinleyin)
+            setTimeout(function() {
+                loadingAnimation.style.display = 'none';
+            }, 2000);
+            
+            // Navbar scroll kontrolü
+            const navbar = document.getElementById('navbar');
+            const menuBtn = document.getElementById('menu-btn');
+            const menu = document.getElementById('menu');
+            let lastScrollY = window.scrollY;
+            const heroSection = document.querySelector('section:first-of-type');
+            let heroSectionHeight = heroSection.offsetHeight;
+            
+            // Sayfa yüklendiğinde ve yeniden boyutlandırıldığında hero section yüksekliğini güncelle
+            function updateHeroHeight() {
+                heroSectionHeight = heroSection.offsetHeight;
+            }
+            
+            window.addEventListener('resize', updateHeroHeight);
+            updateHeroHeight();
+            
+            // Scroll olayını dinle
+            window.addEventListener('scroll', function() {
+                const currentScrollY = window.scrollY;
+                
+                // İlk sayfadan sonra scroll
+                if (currentScrollY > 100) {
+                    navbar.classList.add('navbar-scroll');
+                } else {
+                    navbar.classList.remove('navbar-scroll');
+                }
+                
+                // Ana sayfa dışında scroll yukarı/aşağı kontrolü
+                if (currentScrollY > heroSectionHeight) {
+                    // Aşağı scroll - navbar'ı gizle
+                    if (currentScrollY > lastScrollY) {
+                        navbar.classList.add('navbar-hidden');
+                    } 
+                    // Yukarı scroll - navbar'ı göster
+                    else {
+                        navbar.classList.remove('navbar-hidden');
+                    }
+                } else {
+                    // Ana sayfada her zaman göster
+                    navbar.classList.remove('navbar-hidden');
+                }
+                
+                lastScrollY = currentScrollY;
+            });
+            
+            // Mobil menü toggle
+            menuBtn.addEventListener('click', function() {
+                if (menu.classList.contains('hidden')) {
+                    menu.classList.remove('hidden');
+                    menu.classList.add('flex', 'flex-col', 'navbar-menu-mobile');
+                } else {
+                    menu.classList.add('hidden');
+                    menu.classList.remove('flex', 'flex-col', 'navbar-menu-mobile');
+                }
+            });
+            
+            // Menü linklerine tıklandığında mobil menüyü kapat
+            const menuLinks = menu.querySelectorAll('a');
+            menuLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth < 768) {
+                        menu.classList.add('hidden');
+                        menu.classList.remove('flex', 'flex-col', 'navbar-menu-mobile');
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
