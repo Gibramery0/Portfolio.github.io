@@ -125,8 +125,8 @@ function createProjectCard(projectName, projectUrl, projectDescription, index, r
             <div class="relative overflow-visible">
                 <div class="w-full h-60 bg-gray-200 flex items-center justify-center image-container group" data-repo="${repoName}">
                     <i class="fa-solid fa-image fa-5x text-gray-400"></i>
-                    <button class="expand-btn absolute top-2 right-2 bg-white bg-opacity-80 p-2 rounded-full shadow-lg hover:bg-opacity-100 transition-all">
-                        <i class="fa-solid fa-maximize text-gray-700 text-lg"></i>
+                    <button class="expand-btn absolute top-2 right-2 bg-white bg-opacity-80 p-2 rounded-full shadow-lg hover:bg-opacity-100 transition-all z-[100]">
+                        <img src="src/images/expand.png" alt="expand" class="w-5 h-5">
                     </button>
                 </div>
                 <div class="absolute -bottom-5 left-0 right-0 z-10">
@@ -169,10 +169,10 @@ function createProjectCard(projectName, projectUrl, projectDescription, index, r
         
         if (!isExpanded) {
             imageContainer.classList.add('expanded');
-            expandBtn.innerHTML = '<i class="fa-solid fa-minimize text-gray-700 text-lg"></i>';
+            expandBtn.innerHTML = '<img src="src/images/expand.png" alt="expand" class="w-5 h-5 rotate-180">';
         } else {
             imageContainer.classList.remove('expanded');
-            expandBtn.innerHTML = '<i class="fa-solid fa-maximize text-gray-700 text-lg"></i>';
+            expandBtn.innerHTML = '<img src="src/images/expand.png" alt="expand" class="w-5 h-5">';
         }
     });
     
@@ -276,6 +276,7 @@ style.textContent = `
     .expand-btn {
         opacity: 0;
         transition: opacity 0.3s ease;
+        z-index: 100;
     }
 
     .image-container:hover .expand-btn,
