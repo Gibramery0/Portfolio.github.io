@@ -131,6 +131,11 @@ function createProjectCard(projectName, projectUrl, projectDescription, index, r
                         <p class="text-lg font-semibold text-blue-700 truncate">${projectName}</p>
                     </div>
                 </div>
+                <div class="absolute top-2 right-2 z-20">
+                    <button class="expand-btn bg-white bg-opacity-80 p-2 rounded-full shadow-lg hover:bg-opacity-100 transition-all">
+                        <i class="fal fa-expand text-gray-700"></i>
+                    </button>
+                </div>
             </div>`;
     
     // Açıklama varsa ekle (boş açıklama gösterme)
@@ -153,6 +158,28 @@ function createProjectCard(projectName, projectUrl, projectDescription, index, r
     
     // Resmi yükle
     loadProjectImage(repoName, projectCard.querySelector('.image-container'));
+    
+    // Büyütme/küçültme işlevselliği
+    const expandBtn = projectCard.querySelector('.expand-btn');
+    expandBtn.addEventListener('click', (e) => {
+        e.preventDefault(); // Link tıklamasını engelle
+        e.stopPropagation(); // Event bubbling'i engelle
+        
+        const imageContainer = projectCard.querySelector('.image-container');
+        const isExpanded = imageContainer.classList.contains('expanded');
+        
+        if (!isExpanded) {
+            // Büyütme işlemi
+            imageContainer.classList.add('expanded');
+            expandBtn.innerHTML = '<i class="fal fa-compress text-gray-700"></i>';
+            document.body.style.overflow = 'hidden';
+        } else {
+            // Küçültme işlemi
+            imageContainer.classList.remove('expanded');
+            expandBtn.innerHTML = '<i class="fal fa-expand text-gray-700"></i>';
+            document.body.style.overflow = '';
+        }
+    });
     
     // Animasyon bittikten sonra yükleme animasyonunu gizle
     setTimeout(() => {
@@ -198,11 +225,11 @@ async function getProjectImage(username, repoName) {
         
         const files = await response.json();
 
-        // project.img, thumbnail.jpg veya poster.jpg dosyalarını ara
+        // Sadece project.img, project.jpg, project.png dosyalarını ara
         const imageFile = files.find(file => 
             file.name.toLowerCase() === "project.img" || 
-            file.name.toLowerCase() === "thumbnail.jpg" || 
-            file.name.toLowerCase() === "poster.jpg"
+            file.name.toLowerCase() === "project.jpg" || 
+            file.name.toLowerCase() === "project.png"
         );
         
         return imageFile ? imageFile.download_url : "src/images/default.jpg";
@@ -229,7 +256,34 @@ style.textContent = `
     }
     
     .image-container {
-        transition: background-image 0.3s ease;
+        transition: all 0.3s ease;
+    }
+
+    .image-container.expanded {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 1000;
+        background-color: rgba(0, 0, 0, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: zoom-out;
+    }
+
+    .image-container.expanded::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0.9;
     }
 `;
 document.head.appendChild(style);
