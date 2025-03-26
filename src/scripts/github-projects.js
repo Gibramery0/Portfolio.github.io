@@ -123,18 +123,16 @@ function createProjectCard(projectName, projectUrl, projectDescription, index, r
     let cardContent = `
         <a href="${projectUrl}" target="_blank" class="block">
             <div class="relative overflow-visible">
-                <div class="w-full h-60 bg-gray-200 flex items-center justify-center image-container" data-repo="${repoName}">
-                    <i class="fas fa-image fa-5x text-gray-400"></i>
+                <div class="w-full h-60 bg-gray-200 flex items-center justify-center image-container group" data-repo="${repoName}">
+                    <i class="fa-solid fa-image fa-5x text-gray-400"></i>
+                    <button class="expand-btn absolute top-2 right-2 bg-white bg-opacity-80 p-2 rounded-full shadow-lg hover:bg-opacity-100 transition-all">
+                        <i class="fa-solid fa-maximize text-gray-700 text-lg"></i>
+                    </button>
                 </div>
                 <div class="absolute -bottom-5 left-0 right-0 z-10">
                     <div class="bg-white mx-auto w-4/5 py-2 px-4 rounded-full shadow-lg text-center border border-gray-200">
                         <p class="text-lg font-semibold text-blue-700 truncate">${projectName}</p>
                     </div>
-                </div>
-                <div class="absolute top-2 right-2 z-20">
-                    <button class="expand-btn bg-white bg-opacity-80 p-2 rounded-full shadow-lg hover:bg-opacity-100 transition-all">
-                        <i class="fal fa-expand text-gray-700"></i>
-                    </button>
                 </div>
             </div>`;
     
@@ -161,23 +159,20 @@ function createProjectCard(projectName, projectUrl, projectDescription, index, r
     
     // Büyütme/küçültme işlevselliği
     const expandBtn = projectCard.querySelector('.expand-btn');
+    const imageContainer = projectCard.querySelector('.image-container');
+    
     expandBtn.addEventListener('click', (e) => {
-        e.preventDefault(); // Link tıklamasını engelle
-        e.stopPropagation(); // Event bubbling'i engelle
+        e.preventDefault();
+        e.stopPropagation();
         
-        const imageContainer = projectCard.querySelector('.image-container');
         const isExpanded = imageContainer.classList.contains('expanded');
         
         if (!isExpanded) {
-            // Büyütme işlemi
             imageContainer.classList.add('expanded');
-            expandBtn.innerHTML = '<i class="fal fa-compress text-gray-700"></i>';
-            document.body.style.overflow = 'hidden';
+            expandBtn.innerHTML = '<i class="fa-solid fa-minimize text-gray-700 text-lg"></i>';
         } else {
-            // Küçültme işlemi
             imageContainer.classList.remove('expanded');
-            expandBtn.innerHTML = '<i class="fal fa-expand text-gray-700"></i>';
-            document.body.style.overflow = '';
+            expandBtn.innerHTML = '<i class="fa-solid fa-maximize text-gray-700 text-lg"></i>';
         }
     });
     
@@ -257,33 +252,35 @@ style.textContent = `
     
     .image-container {
         transition: all 0.3s ease;
+        background-size: cover;
+        background-position: center;
+        position: relative;
     }
 
     .image-container.expanded {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
+        transform: scale(1.5);
         z-index: 1000;
-        background-color: rgba(0, 0, 0, 0.9);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: zoom-out;
     }
 
-    .image-container.expanded::before {
+    .image-container.expanded::after {
         content: '';
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-        background-size: contain;
-        background-position: center;
-        background-repeat: no-repeat;
-        opacity: 0.9;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: -1;
+    }
+
+    .expand-btn {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .image-container:hover .expand-btn,
+    .image-container.expanded .expand-btn {
+        opacity: 1;
     }
 `;
 document.head.appendChild(style);
