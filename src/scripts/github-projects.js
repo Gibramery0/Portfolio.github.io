@@ -125,9 +125,6 @@ function createProjectCard(projectName, projectUrl, projectDescription, index, r
             <div class="relative overflow-visible">
                 <div class="w-full h-60 bg-gray-200 flex items-center justify-center image-container group" data-repo="${repoName}">
                     <i class="fa-solid fa-image fa-5x text-gray-400"></i>
-                    <button class="expand-btn absolute top-2 right-2 bg-white bg-opacity-80 p-2 rounded-full shadow-lg hover:bg-opacity-100 transition-all z-[100]">
-                        <img src="src/images/expand.png" alt="expand" class="w-5 h-5">
-                    </button>
                 </div>
                 <div class="absolute -bottom-5 left-0 right-0 z-10">
                     <div class="bg-white mx-auto w-4/5 py-2 px-4 rounded-full shadow-lg text-center border border-gray-200">
@@ -156,32 +153,6 @@ function createProjectCard(projectName, projectUrl, projectDescription, index, r
     
     // Resmi yükle
     loadProjectImage(repoName, projectCard.querySelector('.image-container'));
-    
-    // Büyütme/küçültme işlevselliği
-    const expandBtn = projectCard.querySelector('.expand-btn');
-    const imageContainer = projectCard.querySelector('.image-container');
-    
-    expandBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        const isExpanded = imageContainer.classList.contains('expanded');
-        
-        if (!isExpanded) {
-            imageContainer.classList.add('expanded');
-            expandBtn.innerHTML = '<img src="src/images/expand.png" alt="expand" class="w-5 h-5 rotate-180">';
-        } else {
-            imageContainer.classList.remove('expanded');
-            expandBtn.innerHTML = '<img src="src/images/expand.png" alt="expand" class="w-5 h-5">';
-        }
-    });
-    
-    // Animasyon bittikten sonra yükleme animasyonunu gizle
-    setTimeout(() => {
-        if (loadingAnimation) {
-            loadingAnimation.style.display = "none";
-        }
-    }, (index + 1) * 100 + 500);
 }
 
 // Proje resmi yükleme fonksiyonu
@@ -197,6 +168,63 @@ async function loadProjectImage(repoName, imageContainer) {
                 imageContainer.style.backgroundImage = `url('${projectImage}')`;
                 imageContainer.style.backgroundSize = 'cover';
                 imageContainer.style.backgroundPosition = 'center';
+                
+                // Expand butonunu ekle
+                const expandBtn = document.createElement('button');
+                expandBtn.className = 'expand-btn absolute top-2 right-2 bg-white bg-opacity-40 p-2 rounded-full shadow-lg hover:bg-opacity-60 transition-all z-[100]';
+                expandBtn.innerHTML = '<i class="fa-solid fa-expand text-gray-700 text-lg"></i>';
+                
+                // Büyütme/küçültme işlevselliği
+                expandBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Modal oluştur
+                    const modal = document.createElement('div');
+                    modal.className = 'fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[1000]';
+                    
+                    // Modal içeriği
+                    const modalContent = document.createElement('div');
+                    modalContent.className = 'relative max-w-4xl w-full mx-4';
+                    
+                    // Kapatma butonu
+                    const closeBtn = document.createElement('button');
+                    closeBtn.className = 'absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors';
+                    closeBtn.innerHTML = '<i class="fa-solid fa-xmark text-3xl"></i>';
+                    
+                    // Görsel container
+                    const imageWrapper = document.createElement('div');
+                    imageWrapper.className = 'bg-white rounded-lg overflow-hidden';
+                    
+                    // Görsel
+                    const modalImg = document.createElement('img');
+                    modalImg.className = 'w-full h-auto';
+                    modalImg.src = projectImage;
+                    modalImg.alt = projectName;
+                    
+                    // Modal içeriğini birleştir
+                    imageWrapper.appendChild(modalImg);
+                    modalContent.appendChild(closeBtn);
+                    modalContent.appendChild(imageWrapper);
+                    modal.appendChild(modalContent);
+                    
+                    // Modalı sayfaya ekle
+                    document.body.appendChild(modal);
+                    
+                    // Kapatma işlevi
+                    closeBtn.addEventListener('click', () => {
+                        modal.remove();
+                    });
+                    
+                    // Modal dışına tıklayınca kapat
+                    modal.addEventListener('click', (e) => {
+                        if (e.target === modal) {
+                            modal.remove();
+                        }
+                    });
+                });
+                
+                imageContainer.appendChild(expandBtn);
             };
             img.onerror = function() {
                 // Resim yüklenemezse ikonu koru
@@ -257,30 +285,13 @@ style.textContent = `
         position: relative;
     }
 
-    .image-container.expanded {
-        transform: scale(1.5);
-        z-index: 1000;
-    }
-
-    .image-container.expanded::after {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.8);
-        z-index: -1;
-    }
-
     .expand-btn {
         opacity: 0;
-        transition: opacity 0.3s ease;
+        transition: all 0.3s ease;
         z-index: 100;
     }
 
-    .image-container:hover .expand-btn,
-    .image-container.expanded .expand-btn {
+    .image-container:hover .expand-btn {
         opacity: 1;
     }
 `;
