@@ -200,7 +200,7 @@ async function loadProjectImage(repoName, imageContainer) {
                     const modalImg = document.createElement('img');
                     modalImg.className = 'w-full h-auto';
                     modalImg.src = projectImage;
-                    modalImg.alt = projectName;
+                    modalImg.alt = repoName.replace(/[-_]/g, ' '); // Proje adını düzgün formatta göster
                     
                     // Modal içeriğini birleştir
                     imageWrapper.appendChild(modalImg);
