@@ -901,8 +901,8 @@ textarea::-webkit-scrollbar {
                 message: messageField.value
             };
             
-            // Text dosyası oluştur ve indir
-            createAndDownloadTextFile(formData);
+            // Google Forms'a veri gönder
+            submitToGoogleForms(formData);
             
             // Mesajı değiştir
             messageField.value = "We got your message!";
@@ -929,34 +929,44 @@ textarea::-webkit-scrollbar {
             }, 5000);
         }
         
-        function createAndDownloadTextFile(formData) {
-            // Şu anki tarihi al
-            const now = new Date();
-            const dateStr = now.toLocaleDateString('tr-TR');
-            const timeStr = now.toLocaleTimeString('tr-TR');
-            
-            // Dosya içeriğini oluştur
-            const fileContent = 
-                `İLETİŞİM FORMU (${dateStr} - ${timeStr})\n` +
-                `------------------------------------------\n` +
-                `İsim: ${formData.fullname}\n` +
-                `Numara: ${formData.number}\n` +
-                `E-posta: ${formData.mail}\n` +
-                `Şirket: ${formData.company}\n` +
-                `Referans: ${formData.referans}\n` +
-                `Mesaj: ${formData.message}\n`;
-            
-            // Dosya adını oluştur (isim ve tarih ile)
-            const filename = `${formData.fullname.replace(/\s+/g, '_')}_${dateStr.replace(/\//g, '-')}.txt`;
-            
-            // Dosya oluştur ve indir
-            const element = document.createElement('a');
-            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(fileContent));
-            element.setAttribute('download', filename);
-            element.style.display = 'none';
-            document.body.appendChild(element);
-            element.click();
-            document.body.removeChild(element);
+        // Google Forms'a veri gönderme fonksiyonu
+        async function submitToGoogleForms(formData) {
+            try {
+                // Google Forms URL'si
+                const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfPEDuwfALdz2641R7eePpje0Qbpd8mxjYiatV-TFbUXVG3-w/formResponse';
+                
+                // Form alanlarının ID'leri
+                const formFields = {
+                    'entry.1764351265': formData.fullname,    // İsim alanı ID'si
+                    'entry.89873323': formData.number,      // Telefon alanı ID'si
+                    'entry.1208066242': formData.mail,        // E-posta alanı ID'si
+                    'entry.1280881061': formData.company,     // Şirket alanı ID'si
+                    'entry.672626464': formData.referans,    // Referans alanı ID'si
+                    'entry.1033053279': formData.message      // Mesaj alanı ID'si
+                };
+                
+                // Form verilerini URL'ye uygun formata dönüştür
+                const formBody = new URLSearchParams();
+                Object.entries(formFields).forEach(([key, value]) => {
+                    formBody.append(key, value);
+                });
+                
+                // Google Forms'a POST isteği gönder
+                const response = await fetch(formUrl, {
+                    method: 'POST',
+                    mode: 'no-cors', // CORS sorunlarını önlemek için
+                    body: formBody
+                });
+                
+                // no-cors modunda response.ok her zaman false olacak
+                // Bu yüzden hata kontrolünü kaldırıyoruz
+                console.log('Form başarıyla gönderildi');
+                
+            } catch (error) {
+                console.error('Form gönderilirken hata oluştu:', error);
+                // Hata mesajını gösterme
+                // alert('Form gönderilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
+            }
         }
 
         // Textarea'nın otomatik büyümesi için fonksiyon
