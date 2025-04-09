@@ -1,0 +1,92 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.text-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.word {
+    position: absolute;
+    font-size: 5em;
+    font-weight: bold;
+    opacity: 0;
+    text-align: center;
+    width: 100%;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    transform: scale(0.5);
+    transition: opacity 0.1s ease;
+}
+
+/* Renk çeşitliliği ekleyelim */
+.word:nth-child(5n+1) { color: #FF5E5E; text-shadow: 0 0 20px rgba(255,94,94,0.5); }
+.word:nth-child(5n+2) { color: #5EFFFF; text-shadow: 0 0 20px rgba(94,255,255,0.5); }
+.word:nth-child(5n+3) { color: #5EFF8F; text-shadow: 0 0 20px rgba(94,255,143,0.5); }
+.word:nth-child(5n+4) { color: #FFFF5E; text-shadow: 0 0 20px rgba(255,255,94,0.5); }
+.word:nth-child(5n+5) { color: #FF5EFF; text-shadow: 0 0 20px rgba(255,94,255,0.5); }
+
+.word.active {
+    animation: popInOut 1s forwards; /* 1.5s yerine 1s */
+}
+
+@keyframes popInOut {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    15% { /* 20% yerine 15% */
+        opacity: 1;
+        transform: scale(1.3); /* Daha büyük ölçek */
+    }
+    25% { /* 30% yerine 25% */
+        opacity: 1;
+        transform: scale(1);
+    }
+    75% { /* 70% yerine 75% */
+        opacity: 1;
+        transform: scale(1);
+    }
+    85% { /* 80% yerine 85% */
+        opacity: 1;
+        transform: scale(1.2);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+}
+
+/* Aktif olmayan kelimelerin hızlı kaybolması için */
+.text-container:has(.word.active) .word:not(.active) {
+    opacity: 0 !important;
+    transform: scale(0.2) !important;
+    transition: opacity 0.15s ease, transform 0.15s ease !important;
+} 

@@ -59,7 +59,7 @@ async function fetchRepositories() {
         
         // Arka plan rengini ekle
         document.querySelector('#projects').classList.add('bg-gray-100');
-        
+
         projectsContainer.innerHTML = ""; 
 
         // Projeleri yükle ve animasyonla göster
@@ -267,7 +267,7 @@ function retryFetchRepositories() {
     if (loadingAnimation) {
         loadingAnimation.style.display = "flex";
     }
-    fetchRepositories();
+fetchRepositories();
 }
 
 // CSS Animasyonu ekle
