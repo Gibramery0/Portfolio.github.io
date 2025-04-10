@@ -10,31 +10,59 @@ speech.lang = "tr-TR";
 speech.rate = 1.0;
 
 let currentWordIndex = 0;
+let startTime = null;
 
-document.getElementById('startButton').addEventListener('click', function() {
-    // "Sana güzel bir mesajım var :)" metnini ve butonu gizle
-    document.getElementById('message').classList.add('hide');
-    document.getElementById('startButton').classList.add('hide');
+function clearPreviousWords() {
+    document.querySelectorAll('.word.active').forEach(word => {
+        word.classList.remove('active');
+    });
+}
 
-    // Speech synthesis işlemi
-    window.speechSynthesis.speak(speech);
+function showWord(index) {
+    clearPreviousWords();
     
-    // Mesajları sırayla gösterme
-    speech.onend = () => {
-        if (currentWordIndex < words.length) {
+    const word = document.getElementById(`word${index + 1}`);
+    if (!word) return;
+    
+    word.classList.add('active');
+    
+    setTimeout(() => {
+        word.classList.remove('active');
+    }, 1000);
+}
+
+speech.onboundary = (event) => {
+    if (event.name === 'word') {
+        const word = event.utterance.text.substring(event.charIndex, event.charIndex + event.charLength).trim();
+        if (words[currentWordIndex] === word) {
             showWord(currentWordIndex);
+            currentWordIndex++;
         }
+    }
+};
+
+speech.onend = () => {
+    if (currentWordIndex < words.length) {
+        showWord(currentWordIndex);
+    }
     
+    setTimeout(() => {
+        document.querySelectorAll('.word').forEach(word => {
+            word.style.opacity = 0;
+            word.style.transform = 'scale(0.1)';
+        });
+        
         setTimeout(() => {
-            document.querySelectorAll('.word').forEach(word => {
-                word.style.opacity = 0;
-                word.style.transform = 'scale(0.1)';
-            });
+            window.location.href = 'index.html';  // Sayfayı yönlendiriyoruz
+        }, 500);
+    }, 1000);
+};
+
+// Kullanıcı etkileşimi ile sesi başlatıyoruz
+document.getElementById('startButton').addEventListener('click', () => {
+    clearPreviousWords();
     
-            setTimeout(() => {
-                window.location.href = 'index.html';  // Burada yönlendirme yapılır.
-            }, 500);  // 500 ms bekleme süresi.
-        }, 1000);  // 1 saniye sonra animasyonun bitişi sonrası yapılacak işlemler.
-    };
-    
+    setTimeout(() => {
+        window.speechSynthesis.speak(speech);  // Sesin başlaması
+    }, 800);
 });
