@@ -90,3 +90,38 @@ body {
     transform: scale(0.2) !important;
     transition: opacity 0.15s ease, transform 0.15s ease !important;
 }
+
+/* Kalp simgesine animasyon ekliyoruz */
+#heartButton {
+    font-size: 3em;
+    cursor: pointer;
+    animation: pulse 1.5s infinite; /* Kalp simgesine animasyon ekliyoruz */
+}
+
+/* Kalp simgesi kaybolduğunda animasyon ekliyoruz */
+.hide {
+    animation: fadeOut 0.5s forwards; /* Kaybolma animasyonu */
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2); /* Kalp büyür */
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0);
+    }
+}

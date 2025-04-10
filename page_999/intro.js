@@ -1,23 +1,29 @@
+// Kalp emoji'sinin HTML elementini seçiyoruz
+const heartButton = document.getElementById('heartButton');
+
+// Metinleri tanımlıyoruz
 const words = [
     "Seni", "Seviyorum", "Her", "Anımda", "Sen", "Varsın",
     "Sen", "Benim", "Hayatımın", "En", "Güzel", "Şiirisin",
     "Sen", "Benim", "Her", "Şeyimsin", "❤️"
 ];
 
+// Sesle metin okuma için SpeechSynthesisUtterance oluşturuyoruz
 const speech = new SpeechSynthesisUtterance();
 speech.text = words.join(" ");
 speech.lang = "tr-TR";
 speech.rate = 1.0;
 
 let currentWordIndex = 0;
-let startTime = null;
 
+// Önceki kelimeleri temizleme fonksiyonu
 function clearPreviousWords() {
     document.querySelectorAll('.word.active').forEach(word => {
         word.classList.remove('active');
     });
 }
 
+// Yeni kelimeyi gösteren fonksiyon
 function showWord(index) {
     clearPreviousWords();
     
@@ -31,6 +37,7 @@ function showWord(index) {
     }, 1000);
 }
 
+// Kelime sınırına ulaşıldığında sesin ilerlemesi için event handler
 speech.onboundary = (event) => {
     if (event.name === 'word') {
         const word = event.utterance.text.substring(event.charIndex, event.charIndex + event.charLength).trim();
@@ -41,6 +48,7 @@ speech.onboundary = (event) => {
     }
 };
 
+// Ses bitince yapılacak işlemler
 speech.onend = () => {
     if (currentWordIndex < words.length) {
         showWord(currentWordIndex);
@@ -59,10 +67,14 @@ speech.onend = () => {
 };
 
 // Kullanıcı etkileşimi ile sesi başlatıyoruz
-document.getElementById('startButton').addEventListener('click', () => {
+heartButton.addEventListener('click', () => {
+    // Kalp simgesinin kaybolmasını sağlamak için animasyon ekliyoruz
+    heartButton.classList.add('hide'); // Kaybolma animasyonu başlatılır
+
+    // Kelimeleri gösterme
     clearPreviousWords();
     
     setTimeout(() => {
         window.speechSynthesis.speak(speech);  // Sesin başlaması
-    }, 800);
+    }, 800);  // 0.8 saniye gecikme ile sesi başlatıyoruz
 });
