@@ -20,16 +20,21 @@ document.getElementById('startButton').addEventListener('click', function() {
     window.speechSynthesis.speak(speech);
     
     // Mesajları sırayla gösterme
-    speech.onboundary = (event) => {
-        if (event.name === 'word') {
-            const word = event.utterance.text.substring(event.charIndex, event.charIndex + event.charLength).trim();
-            if (words[currentWordIndex] === word) {
-                const wordElement = document.getElementById(`word${currentWordIndex + 1}`);
-                if (wordElement) {
-                    wordElement.classList.add('active');
-                }
-                currentWordIndex++;
-            }
+    speech.onend = () => {
+        if (currentWordIndex < words.length) {
+            showWord(currentWordIndex);
         }
+    
+        setTimeout(() => {
+            document.querySelectorAll('.word').forEach(word => {
+                word.style.opacity = 0;
+                word.style.transform = 'scale(0.1)';
+            });
+    
+            setTimeout(() => {
+                window.location.href = 'index.html';  // Burada yönlendirme yapılır.
+            }, 500);  // 500 ms bekleme süresi.
+        }, 1000);  // 1 saniye sonra animasyonun bitişi sonrası yapılacak işlemler.
     };
+    
 });
