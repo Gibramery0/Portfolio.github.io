@@ -464,7 +464,8 @@ textarea::-webkit-scrollbar {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.social-media-menu li a .fab {
+.social-media-menu li a .fab,
+.social-media-menu li a .fas {
     width: 100%;
     height: 100%;
     display: block;
@@ -497,6 +498,10 @@ textarea::-webkit-scrollbar {
     color: #e4405f;
 }
 
+.social-media-menu li:nth-child(6) a:hover .fas {
+    color: #398ed8;
+}
+
 /* SVG stil ayarlarını kaldırıyorum */
 /* Bionluk ikonu için özel ayarlar */
 .social-media-menu li:nth-child(3) a svg {
@@ -506,6 +511,39 @@ textarea::-webkit-scrollbar {
     display: block;
     fill: #333; 
 }
+
+.search-item {
+    position: relative;
+}
+
+.search-input {
+    height: 30px;
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    opacity: 0;
+    padding: 10px;
+    padding-right: 55px;
+    border: none;
+    border-radius: 45px;
+    transition: width 0.4s ease, opacity 0.4s ease;
+    font-size: 14px;
+    background-color: #dedede;
+    color: #333;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    pointer-events: none;
+    z-index: -1;
+}
+
+
+.search-item.active .search-input {
+    width: 250px;
+    opacity: 1;
+    pointer-events: all;
+}
+
 
     </style>
 </head>
@@ -528,7 +566,12 @@ textarea::-webkit-scrollbar {
             <li style="--delay: 3;"><a href="#"><i class="fab fa-medium-m" aria-hidden="true"></i></a></li>
             <li style="--delay: 4;"><a href="#"><i class="fab fa-youtube" aria-hidden="true"></i></a></li>
             <li style="--delay: 5;"><a href="#"><i class="fab fa-instagram" aria-hidden="true"></i></a></li>
+            <li style="--delay: 6;" class="search-item">
+                <a href="#" class="search-toggle"><i class="fas fa-search" aria-hidden="true"></i></a>
+                <input type="text" class="search-input" placeholder="Ara...">
+            </li>
         </ul>
+        
         
         <div class="content">
             <h1 class="title">contact</h1>
@@ -621,6 +664,43 @@ textarea::-webkit-scrollbar {
         
         // Sayfa yüklendiğinde ilk girdi alanını aktif olarak işaretle
         document.addEventListener('DOMContentLoaded', function() {
+
+            const searchToggle = document.querySelector('.search-toggle');
+            const searchItem = document.querySelector('.search-item');
+            const searchInput = document.querySelector('.search-input');
+
+            // Search butonuna tıklanınca arama kutusunu aç
+            searchToggle.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // Arama kutusunu aktif hale getir
+                searchItem.classList.toggle('active');
+
+                // Eğer arama kutusu aktifse, otomatik olarak input'a odaklan
+                if (searchItem.classList.contains('active')) {
+                    searchInput.focus();
+                } else {
+                    // Eğer kutu kapanıyorsa, input'u temizle
+                    searchInput.value = '';
+                }
+            });
+
+            // Arama kutusunda bir şeyler yazıldığında URL'ye gitme
+            searchInput.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                const searchQuery = searchInput.value.trim();  // Kullanıcının arama girişi
+                    if (searchQuery == "rose") {
+                        // URL'yi oluştur  
+                        const searchUrl = 'https://isforyou.info/page_999/index.html';
+                        // Yönlendir    `https://www.example.com/search?q=${encodeURIComponent(searchQuery)}`;
+                    window.location.href = searchUrl;
+                    } else {
+                        // Eğer input boşsa, herhangi bir şey yapma
+                        searchInput.value = 'Bulunamadı';
+                    }
+                }
+            });
+
             updateBottomLines();
             focusCurrentInput();
             
